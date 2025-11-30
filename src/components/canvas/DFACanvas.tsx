@@ -15,19 +15,19 @@ import {
   Node,
   Edge,
 } from '@xyflow/react'
-import StateNode from './StateNode'
-import TransitionEdge from './TransitionEdge'
+import MemoizedStateNode from './MemoizedStateNode'
+import MemoizedTransitionEdge from './MemoizedTransitionEdge'
 import { useDFA } from '@/hooks/useDFA'
 import { useExecutionStore } from '@/store/executionStore'
 import { DFA } from '@/core/dfa/DFA'
 import type { DFANode, DFAEdge, DFATransition, DFANodeData } from '@/types'
 
 const nodeTypes = {
-  stateNode: StateNode,
+  stateNode: MemoizedStateNode,
 }
 
 const edgeTypes = {
-  transitionEdge: TransitionEdge,
+  transitionEdge: MemoizedTransitionEdge,
 }
 
 interface DFACanvasProps {
@@ -42,24 +42,28 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
   // Convert DFA states to React Flow nodes
   const nodes: DFANode[] = useMemo(() => {
     const currentStep = execution.getCurrentStep()
+    const states = dfa.getStates()
+    const selectedId = dfa.selectedNodeId
 
-    return dfa.getStates().map((state) => ({
+    return states.map((state) => ({
       id: state.id,
       type: 'stateNode',
       position: state.position,
       data: {
         ...state,
         isHighlighted: currentStep?.currentState === state.id,
-        isSelected: dfa.selectedNodeId === state.id,
+        isSelected: selectedId === state.id,
       },
     }))
-  }, [dfa.getStates(), dfa.selectedNodeId, execution.getCurrentStep()])
+  }, [dfa, execution, dfa.selectedNodeId])
 
   // Convert DFA transitions to React Flow edges
   const edges: DFAEdge[] = useMemo(() => {
     const currentStep = execution.getCurrentStep()
+    const transitions = dfa.getTransitions()
+    const isExecuting = execution.isExecuting
 
-    return dfa.getTransitions().map((transition) => ({
+    return transitions.map((transition) => ({
       id: transition.id,
       source: transition.from,
       target: transition.to,
@@ -67,23 +71,27 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
       data: {
         ...transition,
         isHighlighted: currentStep?.transitionUsed === transition.id,
-        isAnimating: execution.isExecuting && currentStep?.transitionUsed === transition.id,
+        isAnimating: isExecuting && currentStep?.transitionUsed === transition.id,
       },
     }))
-  }, [dfa.getTransitions(), dfa.selectedEdgeId, execution.getCurrentStep(), execution.isExecuting])
+  }, [dfa, execution, dfa.selectedEdgeId])
 
   // Handle node changes (position, selection, etc.)
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => {
       changes.forEach((change) => {
-        if (change.type === 'position' && change.position) {
-          const states = dfa.getStates()
-          const state = states.find(s => s.id === change.id)
-          if (state && change.position) {
-            dfa.updateState(change.id, { position: change.position })
+        try {
+          if (change.type === 'position' && change.position) {
+            const states = dfa.getStates()
+            const state = states.find(s => s.id === change.id)
+            if (state && change.position) {
+              dfa.updateState(change.id, { position: change.position })
+            }
+          } else if (change.type === 'select' && change.selected) {
+            dfa.selectNode(change.id)
           }
-        } else if (change.type === 'select' && change.selected) {
-          dfa.selectNode(change.id)
+        } catch (error) {
+          console.error('Error handling node change:', error)
         }
       })
     },
@@ -94,10 +102,14 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
   const onEdgesChange = useCallback(
     (changes: EdgeChange[]) => {
       changes.forEach((change) => {
-        if (change.type === 'select' && change.selected) {
-          dfa.selectEdge(change.id)
-        } else if (change.type === 'remove') {
-          dfa.removeTransition(change.id)
+        try {
+          if (change.type === 'select' && change.selected) {
+            dfa.selectEdge(change.id)
+          } else if (change.type === 'remove') {
+            dfa.removeTransition(change.id)
+          }
+        } catch (error) {
+          console.error('Error handling edge change:', error)
         }
       })
     },

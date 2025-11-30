@@ -23,8 +23,16 @@ const Toolbar: FC = () => {
   const dfa = useDFA()
   const execution = useExecutionStore()
   const handleAddState = () => {
-    // Will create a basic state at center
-    dfa.createState({ x: 300, y: 200 }, 'normal')
+    try {
+      // Will create a basic state at center with some randomness to avoid overlap
+      const randomOffset = Math.random() * 50 - 25
+      dfa.createState({
+        x: 300 + randomOffset,
+        y: 200 + randomOffset
+      }, 'normal')
+    } catch (error) {
+      console.error('Failed to add state:', error)
+    }
   }
 
   const handleClear = () => {

@@ -14,6 +14,12 @@ export function useExecution() {
 
   // Auto-advance execution
   useEffect(() => {
+    // Clear any existing timer
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+
     if (execStore.isExecuting && !execStore.isPaused) {
       if (execStore.isAtEnd()) {
         execStore.pauseExecution()
@@ -22,15 +28,16 @@ export function useExecution() {
 
       timerRef.current = setTimeout(() => {
         execStore.stepForward()
-      }, execStore.speed)
+      }, execStore.speed) as unknown as number
 
       return () => {
         if (timerRef.current) {
           clearTimeout(timerRef.current)
+          timerRef.current = null
         }
       }
     }
-  }, [execStore.isExecuting, execStore.isPaused, execStore.currentStepIndex, execStore.speed])
+  }, [execStore.isExecuting, execStore.isPaused, execStore.currentStepIndex, execStore.speed, execStore])
 
   const executeInput = useCallback((input: string) => {
     const definition = dfaStore.getDefinition()

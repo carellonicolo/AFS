@@ -10,13 +10,14 @@ import { Plus, X } from 'lucide-react'
 
 const AlphabetPanel: FC = () => {
   const dfa = useDFA()
-  const [alphabet, setAlphabet] = useState<string[]>(dfa.getAlphabet())
+  const currentAlphabet = dfa.getAlphabet()
+  const [alphabet, setAlphabet] = useState<string[]>(currentAlphabet)
   const [newSymbol, setNewSymbol] = useState('')
   const [error, setError] = useState('')
 
   useEffect(() => {
-    setAlphabet(dfa.getAlphabet())
-  }, [dfa.getAlphabet()])
+    setAlphabet(currentAlphabet)
+  }, [currentAlphabet.join(',')]) // Use string representation to avoid infinite loop
 
   const handleAddSymbol = () => {
     setError('')

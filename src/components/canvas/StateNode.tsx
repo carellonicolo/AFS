@@ -2,7 +2,7 @@
  * Custom State Node for React Flow
  */
 
-import { FC, memo, useState } from 'react'
+import { FC, useState } from 'react'
 import { Handle, Position, NodeProps } from '@xyflow/react'
 import { clsx } from 'clsx'
 import type { DFANodeData } from '@/types'
@@ -141,4 +141,4 @@ const StateNode: FC<NodeProps> = ({ data: rawData, selected }) => {
   )
 }
 
-export default memo(StateNode)
+export default StateNode

@@ -2,7 +2,7 @@
  * Custom hook for localStorage autosave
  */
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDFAStore } from '@/store/dfaStore'
 
 const AUTOSAVE_DELAY = 5000 // 5 seconds
@@ -10,17 +10,36 @@ const STORAGE_KEY = 'dfa-autosave'
 
 export function useAutoSave() {
   const definition = useDFAStore((state) => state.getDefinition())
+  const timerRef = useRef<number | null>(null)
+  const lastSavedRef = useRef<string>('')
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    // Clear existing timer
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+    }
+
+    const currentData = JSON.stringify(definition)
+
+    // Only save if data actually changed
+    if (currentData === lastSavedRef.current) {
+      return
+    }
+
+    timerRef.current = setTimeout(() => {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(definition))
+        localStorage.setItem(STORAGE_KEY, currentData)
+        lastSavedRef.current = currentData
       } catch (error) {
         console.error('Failed to autosave:', error)
       }
-    }, AUTOSAVE_DELAY)
+    }, AUTOSAVE_DELAY) as unknown as number
 
-    return () => clearTimeout(timer)
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+    }
   }, [definition])
 }
 

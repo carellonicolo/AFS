@@ -2,7 +2,7 @@
  * Custom Transition Edge for React Flow
  */
 
-import { FC, memo } from 'react'
+import { FC } from 'react'
 import {
   BaseEdge,
   EdgeLabelRenderer,
@@ -74,4 +74,4 @@ const TransitionEdge: FC<EdgeProps> = ({
   )
 }
 
-export default memo(TransitionEdge)
+export default TransitionEdge

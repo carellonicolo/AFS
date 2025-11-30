@@ -190,10 +190,16 @@ export const useDFAStore = create<DFAStore>()(
       }),
       onRehydrateStorage: () => (state) => {
         if (state) {
-          // Reconstruct DFA instance from stored definition
-          const definition = state.dfa.getDefinition()
-          state.dfa = new DFA(definition)
-          state.validate()
+          try {
+            // Reconstruct DFA instance from stored definition
+            const definition = state.dfa.getDefinition()
+            state.dfa = new DFA(definition)
+            state.validate()
+          } catch (error) {
+            console.error('Failed to rehydrate DFA from storage:', error)
+            // Initialize with empty DFA on error
+            state.dfa = new DFA()
+          }
         }
       },
     }

@@ -38,16 +38,26 @@ const PropertiesPanel: FC = () => {
   }, [selectedTransition])
 
   const handleStateLabelChange = (value: string) => {
-    setStateLabel(value)
+    // Limit label length
+    const sanitizedValue = value.slice(0, 20)
+    setStateLabel(sanitizedValue)
     if (selectedState) {
-      dfa.updateState(selectedState.id, { label: value })
+      try {
+        dfa.updateState(selectedState.id, { label: sanitizedValue })
+      } catch (error) {
+        console.error('Failed to update state label:', error)
+      }
     }
   }
 
   const handleStateTypeChange = (type: StateType) => {
     setStateType(type)
     if (selectedState) {
-      dfa.updateState(selectedState.id, { type })
+      try {
+        dfa.updateState(selectedState.id, { type })
+      } catch (error) {
+        console.error('Failed to update state type:', error)
+      }
     }
   }
 

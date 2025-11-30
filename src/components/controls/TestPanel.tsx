@@ -17,6 +17,11 @@ const TestPanel: FC = () => {
   const [inputError, setInputError] = useState('')
 
   const validateInput = (input: string): boolean => {
+    if (!input) {
+      setInputError('Inserisci una stringa di input')
+      return false
+    }
+
     const alphabet = dfa.getAlphabet()
 
     for (const char of input) {
