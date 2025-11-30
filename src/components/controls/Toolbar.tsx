@@ -15,6 +15,7 @@ import {
   HelpCircle,
 } from 'lucide-react'
 import Button from '../ui/Button'
+import ThemeToggle from '../ui/ThemeToggle'
 import { useDFA } from '@/hooks/useDFA'
 import { useExecutionStore } from '@/store/executionStore'
 import { DFASerializer } from '@/core/dfa/DFASerializer'
@@ -73,9 +74,9 @@ const Toolbar: FC = () => {
   }
 
   return (
-    <div className="flex items-center gap-2 px-4 py-3 bg-white border-b border-gray-200">
+    <div className="flex items-center gap-2 px-4 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
       {/* State Management */}
-      <div className="flex items-center gap-2 pr-4 border-r border-gray-200">
+      <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-gray-700">
         <Button
           variant="primary"
           size="md"
@@ -98,7 +99,7 @@ const Toolbar: FC = () => {
       </div>
 
       {/* File Operations */}
-      <div className="flex items-center gap-2 pr-4 border-r border-gray-200">
+      <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-gray-700">
         <Button
           variant="secondary"
           size="md"
@@ -132,7 +133,7 @@ const Toolbar: FC = () => {
 
       {/* Execution Controls */}
       {execution.executionResult && (
-        <div className="flex items-center gap-2 pr-4 border-r border-gray-200">
+        <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-gray-700">
           <Button
             variant="primary"
             size="md"
@@ -157,8 +158,9 @@ const Toolbar: FC = () => {
         </div>
       )}
 
-      {/* Help */}
-      <div className="ml-auto">
+      {/* Help & Theme */}
+      <div className="ml-auto flex items-center gap-2">
+        <ThemeToggle />
         <Button variant="ghost" size="md" title="Aiuto">
           <HelpCircle className="w-4 h-4" />
         </Button>

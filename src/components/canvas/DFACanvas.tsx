@@ -19,6 +19,7 @@ import MemoizedStateNode from './MemoizedStateNode'
 import MemoizedTransitionEdge from './MemoizedTransitionEdge'
 import { useDFA } from '@/hooks/useDFA'
 import { useExecutionStore } from '@/store/executionStore'
+import { useTheme } from '@/contexts/ThemeContext'
 import { DFA } from '@/core/dfa/DFA'
 import type { DFANode, DFAEdge, DFATransition, DFANodeData } from '@/types'
 
@@ -37,6 +38,7 @@ interface DFACanvasProps {
 const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
   const dfa = useDFA()
   const execution = useExecutionStore()
+  const { theme } = useTheme()
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
 
   // Convert DFA states to React Flow nodes
@@ -183,7 +185,7 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
           variant={BackgroundVariant.Dots}
           gap={20}
           size={1}
-          color="#d1d5db"
+          color={theme === 'dark' ? '#4b5563' : '#d1d5db'}
         />
         <Controls />
         <MiniMap

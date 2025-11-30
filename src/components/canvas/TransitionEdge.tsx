@@ -60,10 +60,10 @@ const TransitionEdge: FC<EdgeProps> = ({
         >
           <div
             className={clsx(
-              'px-2 py-1 bg-white border-2 rounded text-sm font-semibold',
-              'shadow-sm cursor-pointer',
-              selected ? 'border-primary-500' : 'border-gray-300',
-              isHighlighted && 'bg-red-50 border-red-500'
+              'px-2 py-1 bg-white dark:bg-gray-800 border-2 rounded text-sm font-semibold',
+              'shadow-sm cursor-pointer text-gray-900 dark:text-gray-100',
+              selected ? 'border-primary-500 dark:border-primary-400' : 'border-gray-300 dark:border-gray-600',
+              isHighlighted && 'bg-red-50 dark:bg-red-950 border-red-500 dark:border-red-400'
             )}
           >
             {edgeData?.symbol || ''}

@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.0.2] - 2025-11-30
+
+### Added
+- **Dark Mode**: Implementata modalità scura completa
+  - Toggle tema con icona luna/sole nella toolbar
+  - Supporto per tutte le componenti UI (Button, Input, Badge)
+  - Layout completamente adattato (Header, Sidebar, AppLayout)
+  - Pannelli aggiornati (Properties, Alphabet, Test)
+  - Canvas con background adattivo
+  - Transizioni ed etichette ottimizzate per dark mode
+  - Persistenza preferenza tema su localStorage
+  - Rilevamento automatico preferenze di sistema all'avvio
+
+### Improved
+- ThemeContext con React Context API per gestione globale del tema
+- Hook useTheme per accesso semplice al tema in qualsiasi componente
+- Transizioni smooth tra modalità chiara e scura
+- Contrasto ottimizzato per accessibilità in entrambe le modalità
+
 ## [1.0.1] - 2025-11-30
 
 ### Fixed

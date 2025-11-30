@@ -85,7 +85,7 @@ const PropertiesPanel: FC = () => {
   if (!selectedState && !selectedTransition) {
     return (
       <div className="p-6 text-center">
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-500 dark:text-gray-400 text-sm">
           Seleziona uno stato o una transizione per modificarne le proprietà
         </p>
       </div>
@@ -97,7 +97,7 @@ const PropertiesPanel: FC = () => {
       {selectedState && (
         <>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Proprietà Stato
             </h3>
 
@@ -113,11 +113,11 @@ const PropertiesPanel: FC = () => {
 
             {/* State Type */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Tipo di Stato
               </label>
               <div className="space-y-2">
-                <label className="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                <label className="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800">
                   <input
                     type="radio"
                     name="stateType"
@@ -125,11 +125,11 @@ const PropertiesPanel: FC = () => {
                     onChange={() => handleStateTypeChange('normal')}
                     className="mr-3"
                   />
-                  <span className="flex-1">Normale</span>
+                  <span className="flex-1 dark:text-gray-200">Normale</span>
                   <Badge variant="default">N</Badge>
                 </label>
 
-                <label className="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                <label className="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800">
                   <input
                     type="radio"
                     name="stateType"
@@ -137,11 +137,11 @@ const PropertiesPanel: FC = () => {
                     onChange={() => handleStateTypeChange('initial')}
                     className="mr-3"
                   />
-                  <span className="flex-1">Iniziale</span>
+                  <span className="flex-1 dark:text-gray-200">Iniziale</span>
                   <Badge variant="info">I</Badge>
                 </label>
 
-                <label className="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                <label className="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800">
                   <input
                     type="radio"
                     name="stateType"
@@ -149,11 +149,11 @@ const PropertiesPanel: FC = () => {
                     onChange={() => handleStateTypeChange('accepting')}
                     className="mr-3"
                   />
-                  <span className="flex-1">Accettante</span>
+                  <span className="flex-1 dark:text-gray-200">Accettante</span>
                   <Badge variant="success">F</Badge>
                 </label>
 
-                <label className="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                <label className="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800">
                   <input
                     type="radio"
                     name="stateType"
@@ -161,7 +161,7 @@ const PropertiesPanel: FC = () => {
                     onChange={() => handleStateTypeChange('initial-accepting')}
                     className="mr-3"
                   />
-                  <span className="flex-1">Iniziale e Accettante</span>
+                  <span className="flex-1 dark:text-gray-200">Iniziale e Accettante</span>
                   <Badge variant="warning">I+F</Badge>
                 </label>
               </div>
@@ -173,21 +173,21 @@ const PropertiesPanel: FC = () => {
       {selectedTransition && (
         <>
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Proprietà Transizione
             </h3>
 
             {/* From/To States */}
-            <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+            <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Da:</span>
+                <span className="text-gray-600 dark:text-gray-400">Da:</span>
                 <Badge>
                   {dfa.getStates().find((s) => s.id === selectedTransition.from)
                     ?.label || selectedTransition.from}
                 </Badge>
               </div>
               <div className="flex items-center justify-between text-sm mt-2">
-                <span className="text-gray-600">A:</span>
+                <span className="text-gray-600 dark:text-gray-400">A:</span>
                 <Badge>
                   {dfa.getStates().find((s) => s.id === selectedTransition.to)
                     ?.label || selectedTransition.to}
@@ -204,7 +204,7 @@ const PropertiesPanel: FC = () => {
                 placeholder="es. 0, 1, a"
                 maxLength={1}
               />
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 Deve essere un simbolo dell'alfabeto
               </p>
             </div>
@@ -213,7 +213,7 @@ const PropertiesPanel: FC = () => {
       )}
 
       {/* Delete Button */}
-      <div className="pt-4 border-t border-gray-200">
+      <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
         <Button
           variant="danger"
           size="md"

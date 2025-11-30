@@ -7,7 +7,7 @@ interface AppLayoutProps {
 
 const AppLayout: FC<AppLayoutProps> = ({ children }) => {
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-950">
       <Header />
       <main className="flex-1 overflow-hidden">
         {children}

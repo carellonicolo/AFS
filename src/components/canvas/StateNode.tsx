@@ -106,11 +106,10 @@ const StateNode: FC<NodeProps> = ({ data: rawData, selected }) => {
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             autoFocus
-            className="w-10 text-center bg-transparent border-none outline-none text-sm font-semibold"
-            style={{ color: '#1f2937' }}
+            className="w-10 text-center bg-transparent border-none outline-none text-sm font-semibold text-gray-900 dark:text-gray-100"
           />
         ) : (
-          <span className="text-sm font-semibold text-gray-900 z-10">
+          <span className="text-sm font-semibold text-gray-900 dark:text-gray-100 z-10">
             {data.label}
           </span>
         )}
@@ -120,22 +119,22 @@ const StateNode: FC<NodeProps> = ({ data: rawData, selected }) => {
       <Handle
         type="target"
         position={Position.Top}
-        className="!bg-gray-400 !border-2 !border-white !w-3 !h-3"
+        className="!bg-gray-400 dark:!bg-gray-600 !border-2 !border-white dark:!border-gray-800 !w-3 !h-3"
       />
       <Handle
         type="source"
         position={Position.Bottom}
-        className="!bg-gray-400 !border-2 !border-white !w-3 !h-3"
+        className="!bg-gray-400 dark:!bg-gray-600 !border-2 !border-white dark:!border-gray-800 !w-3 !h-3"
       />
       <Handle
         type="target"
         position={Position.Left}
-        className="!bg-gray-400 !border-2 !border-white !w-3 !h-3"
+        className="!bg-gray-400 dark:!bg-gray-600 !border-2 !border-white dark:!border-gray-800 !w-3 !h-3"
       />
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-gray-400 !border-2 !border-white !w-3 !h-3"
+        className="!bg-gray-400 dark:!bg-gray-600 !border-2 !border-white dark:!border-gray-800 !w-3 !h-3"
       />
     </div>
   )

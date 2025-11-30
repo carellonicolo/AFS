@@ -70,7 +70,7 @@ const TestPanel: FC = () => {
   return (
     <div className="p-4 space-y-4">
       <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">
           Testa il DFA
         </h3>
 
@@ -84,7 +84,7 @@ const TestPanel: FC = () => {
             error={inputError}
             disabled={execution.isExecuting}
           />
-          <p className="mt-1 text-xs text-gray-500">
+          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
             Alfabeto: {'{'}
             {dfa.getAlphabet().join(', ')}
             {'}'}
@@ -117,29 +117,32 @@ const TestPanel: FC = () => {
 
         {/* Execution Result */}
         {result && (
-          <div className="mt-4 p-4 rounded-lg border-2" style={{
-            backgroundColor: result.accepted ? '#f0fdf4' : result.error ? '#fef2f2' : '#fafafa',
-            borderColor: result.accepted ? '#10b981' : result.error ? '#ef4444' : '#d1d5db'
-          }}>
+          <div className={`mt-4 p-4 rounded-lg border-2 ${
+            result.accepted
+              ? 'bg-green-50 border-green-500 dark:bg-green-950 dark:border-green-600'
+              : result.error
+              ? 'bg-red-50 border-red-500 dark:bg-red-950 dark:border-red-600'
+              : 'bg-gray-50 border-gray-300 dark:bg-gray-800 dark:border-gray-600'
+          }`}>
             <div className="flex items-center gap-2 mb-2">
               {result.accepted ? (
-                <CheckCircle className="w-5 h-5 text-green-600" />
+                <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
               ) : result.error ? (
-                <XCircle className="w-5 h-5 text-red-600" />
+                <XCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
               ) : (
-                <AlertCircle className="w-5 h-5 text-gray-600" />
+                <AlertCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />
               )}
-              <span className="font-semibold text-gray-900">
+              <span className="font-semibold text-gray-900 dark:text-gray-100">
                 {result.accepted ? 'Accettato' : result.error ? 'Errore' : 'Rifiutato'}
               </span>
             </div>
 
             {result.error && (
-              <p className="text-sm text-red-700">{result.error}</p>
+              <p className="text-sm text-red-700 dark:text-red-300">{result.error}</p>
             )}
 
             {!result.error && currentStep && (
-              <div className="text-sm text-gray-700 space-y-1">
+              <div className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
                 <div>
                   <span className="font-medium">Passo:</span>{' '}
                   {currentStep.stepNumber} / {result.steps.length - 1}
@@ -158,7 +161,7 @@ const TestPanel: FC = () => {
                 )}
                 <div>
                   <span className="font-medium">Rimane:</span>{' '}
-                  <code className="px-2 py-1 bg-gray-100 rounded font-mono text-xs">
+                  <code className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded font-mono text-xs">
                     {currentStep.remainingInput || '(vuoto)'}
                   </code>
                 </div>
@@ -240,7 +243,7 @@ const TestPanel: FC = () => {
 
             {/* Speed Control */}
             <div className="mt-3">
-              <label className="block text-xs font-medium text-gray-700 mb-1">
+              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Velocità: {execution.speed}ms
               </label>
               <input
@@ -252,7 +255,7 @@ const TestPanel: FC = () => {
                 onChange={(e) => execution.setSpeed(Number(e.target.value))}
                 className="w-full"
               />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
                 <span>Veloce</span>
                 <span>Lento</span>
               </div>
@@ -262,10 +265,10 @@ const TestPanel: FC = () => {
 
         {/* Validation Errors */}
         {dfa.validationResult && !dfa.validationResult.isValid && (
-          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <div className="mt-4 p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg">
             <div className="flex items-start gap-2">
-              <AlertCircle className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
-              <div className="text-sm text-red-700">
+              <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0" />
+              <div className="text-sm text-red-700 dark:text-red-300">
                 <p className="font-semibold mb-1">Errori di validazione:</p>
                 <ul className="list-disc list-inside space-y-1">
                   {dfa.validationResult.errors.map((error, i) => (

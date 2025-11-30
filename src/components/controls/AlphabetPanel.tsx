@@ -70,7 +70,7 @@ const AlphabetPanel: FC = () => {
   return (
     <div className="p-4 space-y-4">
       <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">
           Alfabeto
         </h3>
 
@@ -79,12 +79,12 @@ const AlphabetPanel: FC = () => {
           {alphabet.map((symbol) => (
             <div
               key={symbol}
-              className="inline-flex items-center gap-1 px-3 py-1.5 bg-primary-100 text-primary-800 rounded-full"
+              className="inline-flex items-center gap-1 px-3 py-1.5 bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200 rounded-full"
             >
               <span className="font-mono font-semibold">{symbol}</span>
               <button
                 onClick={() => handleRemoveSymbol(symbol)}
-                className="ml-1 hover:bg-primary-200 rounded-full p-0.5"
+                className="ml-1 hover:bg-primary-200 dark:hover:bg-primary-800 rounded-full p-0.5"
                 title="Rimuovi simbolo"
               >
                 <X className="w-3 h-3" />
@@ -113,7 +113,7 @@ const AlphabetPanel: FC = () => {
           </Button>
         </div>
 
-        <p className="mt-2 text-xs text-gray-500">
+        <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
           Premi Invio o clicca + per aggiungere un simbolo
         </p>
       </div>
