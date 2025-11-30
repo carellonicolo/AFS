@@ -77,7 +77,7 @@ const Toolbar: FC = () => {
     <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40">
       <div className="glass-panel px-4 py-2 flex items-center gap-4">
         {/* State Management */}
-        <div className="flex items-center gap-2 pr-4 border-r border-white/10">
+        <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-white/10">
           <Button
             variant="primary"
             size="md"
@@ -101,7 +101,7 @@ const Toolbar: FC = () => {
         </div>
 
         {/* File Operations */}
-        <div className="flex items-center gap-2 pr-4 border-r border-white/10">
+        <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-white/10">
           <Button
             variant="secondary"
             size="md"
@@ -133,7 +133,7 @@ const Toolbar: FC = () => {
 
         {/* Execution Controls */}
         {execution.executionResult && (
-          <div className="flex items-center gap-2 pr-4 border-r border-white/10">
+          <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-white/10">
             <Button
               variant="primary"
               size="md"

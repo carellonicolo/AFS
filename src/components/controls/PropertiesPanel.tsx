@@ -97,7 +97,7 @@ const PropertiesPanel: FC = () => {
       {selectedState && (
         <>
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider opacity-80">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wider opacity-80">
               Proprietà Stato
             </h3>
 
@@ -113,55 +113,55 @@ const PropertiesPanel: FC = () => {
 
             {/* State Type */}
             <div className="mb-4">
-              <label className="block text-xs font-medium text-slate-400 mb-2 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-gray-500 dark:text-slate-400 mb-2 uppercase tracking-wider">
                 Tipo di Stato
               </label>
               <div className="space-y-2">
-                <label className="flex items-center p-3 border border-white/5 rounded-xl cursor-pointer hover:bg-white/5 transition-colors">
+                <label className="flex items-center p-3 border border-gray-200 dark:border-white/5 rounded-xl cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                   <input
                     type="radio"
                     name="stateType"
                     checked={stateType === 'normal'}
                     onChange={() => handleStateTypeChange('normal')}
-                    className="mr-3 text-primary-500 focus:ring-primary-500 bg-black/20 border-white/10"
+                    className="mr-3 text-primary-500 focus:ring-primary-500 bg-gray-100 dark:bg-black/20 border-gray-300 dark:border-white/10"
                   />
-                  <span className="flex-1 text-slate-200 text-sm">Normale</span>
+                  <span className="flex-1 text-gray-700 dark:text-slate-200 text-sm">Normale</span>
                   <Badge variant="default">N</Badge>
                 </label>
 
-                <label className="flex items-center p-3 border border-white/5 rounded-xl cursor-pointer hover:bg-white/5 transition-colors">
+                <label className="flex items-center p-3 border border-gray-200 dark:border-white/5 rounded-xl cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                   <input
                     type="radio"
                     name="stateType"
                     checked={stateType === 'initial'}
                     onChange={() => handleStateTypeChange('initial')}
-                    className="mr-3 text-primary-500 focus:ring-primary-500 bg-black/20 border-white/10"
+                    className="mr-3 text-primary-500 focus:ring-primary-500 bg-gray-100 dark:bg-black/20 border-gray-300 dark:border-white/10"
                   />
-                  <span className="flex-1 text-slate-200 text-sm">Iniziale</span>
+                  <span className="flex-1 text-gray-700 dark:text-slate-200 text-sm">Iniziale</span>
                   <Badge variant="info">I</Badge>
                 </label>
 
-                <label className="flex items-center p-3 border border-white/5 rounded-xl cursor-pointer hover:bg-white/5 transition-colors">
+                <label className="flex items-center p-3 border border-gray-200 dark:border-white/5 rounded-xl cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                   <input
                     type="radio"
                     name="stateType"
                     checked={stateType === 'accepting'}
                     onChange={() => handleStateTypeChange('accepting')}
-                    className="mr-3 text-primary-500 focus:ring-primary-500 bg-black/20 border-white/10"
+                    className="mr-3 text-primary-500 focus:ring-primary-500 bg-gray-100 dark:bg-black/20 border-gray-300 dark:border-white/10"
                   />
-                  <span className="flex-1 text-slate-200 text-sm">Accettante</span>
+                  <span className="flex-1 text-gray-700 dark:text-slate-200 text-sm">Accettante</span>
                   <Badge variant="success">F</Badge>
                 </label>
 
-                <label className="flex items-center p-3 border border-white/5 rounded-xl cursor-pointer hover:bg-white/5 transition-colors">
+                <label className="flex items-center p-3 border border-gray-200 dark:border-white/5 rounded-xl cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                   <input
                     type="radio"
                     name="stateType"
                     checked={stateType === 'initial-accepting'}
                     onChange={() => handleStateTypeChange('initial-accepting')}
-                    className="mr-3 text-primary-500 focus:ring-primary-500 bg-black/20 border-white/10"
+                    className="mr-3 text-primary-500 focus:ring-primary-500 bg-gray-100 dark:bg-black/20 border-gray-300 dark:border-white/10"
                   />
-                  <span className="flex-1 text-slate-200 text-sm">Iniziale e Accettante</span>
+                  <span className="flex-1 text-gray-700 dark:text-slate-200 text-sm">Iniziale e Accettante</span>
                   <Badge variant="warning">I+F</Badge>
                 </label>
               </div>
@@ -173,21 +173,21 @@ const PropertiesPanel: FC = () => {
       {selectedTransition && (
         <>
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider opacity-80">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wider opacity-80">
               Proprietà Transizione
             </h3>
 
             {/* From/To States */}
-            <div className="mb-4 p-3 bg-black/20 border border-white/5 rounded-xl">
+            <div className="mb-4 p-3 bg-gray-100 dark:bg-black/20 border border-gray-200 dark:border-white/5 rounded-xl">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-slate-400">Da:</span>
+                <span className="text-gray-500 dark:text-slate-400">Da:</span>
                 <Badge>
                   {dfa.getStates().find((s) => s.id === selectedTransition.from)
                     ?.label || selectedTransition.from}
                 </Badge>
               </div>
               <div className="flex items-center justify-between text-sm mt-2">
-                <span className="text-slate-400">A:</span>
+                <span className="text-gray-500 dark:text-slate-400">A:</span>
                 <Badge>
                   {dfa.getStates().find((s) => s.id === selectedTransition.to)
                     ?.label || selectedTransition.to}
@@ -204,7 +204,7 @@ const PropertiesPanel: FC = () => {
                 placeholder="es. 0, 1, a"
                 maxLength={1}
               />
-              <p className="mt-1 text-xs text-slate-500">
+              <p className="mt-1 text-xs text-gray-500 dark:text-slate-500">
                 Deve essere un simbolo dell'alfabeto
               </p>
             </div>
@@ -213,7 +213,7 @@ const PropertiesPanel: FC = () => {
       )}
 
       {/* Delete Button */}
-      <div className="pt-4 border-t border-white/10">
+      <div className="pt-4 border-t border-gray-200 dark:border-white/10">
         <Button
           variant="danger"
           size="md"

@@ -28,11 +28,11 @@ const Sidebar: FC<SidebarProps> = ({ isOpen, onClose, title, children }) => {
       `}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-white/10">
-            <h2 className="text-lg font-semibold text-white">{title}</h2>
+          <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/10">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h2>
             <button
               onClick={onClose}
-              className="p-1 hover:bg-white/10 rounded-lg transition-colors lg:hidden text-slate-400 hover:text-white"
+              className="p-1 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors lg:hidden text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white"
             >
               <X className="w-5 h-5" />
             </button>
