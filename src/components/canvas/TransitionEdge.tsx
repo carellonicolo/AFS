@@ -1,0 +1,77 @@
+/**
+ * Custom Transition Edge for React Flow
+ */
+
+import { FC, memo } from 'react'
+import {
+  BaseEdge,
+  EdgeLabelRenderer,
+  EdgeProps,
+  getBezierPath,
+} from '@xyflow/react'
+import { clsx } from 'clsx'
+import type { DFAEdgeData } from '@/types'
+import { COLORS } from '@/utils/constants'
+
+const TransitionEdge: FC<EdgeProps> = ({
+  id,
+  sourceX,
+  sourceY,
+  targetX,
+  targetY,
+  sourcePosition,
+  targetPosition,
+  data,
+  selected,
+}) => {
+  const [edgePath, labelX, labelY] = getBezierPath({
+    sourceX,
+    sourceY,
+    sourcePosition,
+    targetX,
+    targetY,
+    targetPosition,
+  })
+
+  const edgeData = data as DFAEdgeData | undefined
+  const isHighlighted = edgeData?.isHighlighted
+  const isAnimating = edgeData?.isAnimating
+
+  return (
+    <>
+      <BaseEdge
+        id={id}
+        path={edgePath}
+        style={{
+          stroke: isHighlighted ? COLORS.highlight : COLORS.transition,
+          strokeWidth: selected ? 3 : 2,
+        }}
+        className={clsx(isAnimating && 'transition-animated')}
+      />
+
+      <EdgeLabelRenderer>
+        <div
+          style={{
+            position: 'absolute',
+            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+            pointerEvents: 'all',
+          }}
+          className="nodrag nopan"
+        >
+          <div
+            className={clsx(
+              'px-2 py-1 bg-white border-2 rounded text-sm font-semibold',
+              'shadow-sm cursor-pointer',
+              selected ? 'border-primary-500' : 'border-gray-300',
+              isHighlighted && 'bg-red-50 border-red-500'
+            )}
+          >
+            {edgeData?.symbol || ''}
+          </div>
+        </div>
+      </EdgeLabelRenderer>
+    </>
+  )
+}
+
+export default memo(TransitionEdge)

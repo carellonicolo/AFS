@@ -1,0 +1,106 @@
+/**
+ * React Flow custom styles
+ */
+
+@import '@xyflow/react/dist/style.css';
+
+/* Custom node styles */
+.react-flow__node {
+  cursor: pointer;
+}
+
+.react-flow__node.selected {
+  box-shadow: 0 0 0 3px #3b82f6;
+}
+
+.react-flow__node:hover {
+  opacity: 0.9;
+}
+
+/* Custom edge styles */
+.react-flow__edge-path {
+  stroke-width: 2;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #3b82f6;
+  stroke-width: 3;
+}
+
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke-width: 3;
+}
+
+/* Edge label */
+.react-flow__edge-text {
+  font-size: 14px;
+  font-weight: 600;
+  fill: #1f2937;
+}
+
+.react-flow__edge-textbg {
+  fill: white;
+}
+
+/* Highlighted state during execution */
+.state-node-highlighted {
+  animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Animated transition */
+.transition-animated .react-flow__edge-path {
+  stroke-dasharray: 5;
+  animation: dashdraw 0.5s linear infinite;
+}
+
+@keyframes dashdraw {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+/* Controls */
+.react-flow__controls {
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+.react-flow__controls-button {
+  border: none;
+  background: white;
+}
+
+.react-flow__controls-button:hover {
+  background: #f3f4f6;
+}
+
+/* Background */
+.react-flow__background {
+  background-color: #fafafa;
+}
+
+/* Minimap */
+.react-flow__minimap {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+
+.react-flow__minimap-mask {
+  fill: #3b82f6;
+  fill-opacity: 0.2;
+}
+
+.react-flow__minimap-node {
+  fill: #9ca3af;
+  stroke: none;
+}
