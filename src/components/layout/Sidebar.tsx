@@ -21,25 +21,25 @@ const Sidebar: FC<SidebarProps> = ({ isOpen, onClose, title, children }) => {
 
       {/* Sidebar */}
       <div className={`
-        fixed right-0 top-0 h-full w-80 bg-white dark:bg-gray-900 shadow-xl z-50
+        fixed right-4 top-24 bottom-4 w-80 glass-panel z-40
         transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : 'translate-x-full'}
-        lg:relative lg:translate-x-0
+        ${isOpen ? 'translate-x-0' : 'translate-x-[110%]'}
+        lg:translate-x-0
       `}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h2>
+          <div className="flex items-center justify-between p-4 border-b border-white/10">
+            <h2 className="text-lg font-semibold text-white">{title}</h2>
             <button
               onClick={onClose}
-              className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors lg:hidden"
+              className="p-1 hover:bg-white/10 rounded-lg transition-colors lg:hidden text-slate-400 hover:text-white"
             >
-              <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+              <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
             {children}
           </div>
         </div>

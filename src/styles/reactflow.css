@@ -104,3 +104,71 @@
   fill: #9ca3af;
   stroke: none;
 }
+
+/* ===================================
+   DARK MODE STYLES
+   =================================== */
+
+/* Dark mode: Background */
+.dark .react-flow__background {
+  background-color: #111827;
+}
+
+/* Dark mode: Controls */
+.dark .react-flow__controls {
+  border-color: #374151;
+}
+
+.dark .react-flow__controls-button {
+  background: #1f2937;
+  color: #f3f4f6;
+  border-color: #374151;
+}
+
+.dark .react-flow__controls-button:hover {
+  background: #374151;
+}
+
+.dark .react-flow__controls-button svg {
+  fill: #f3f4f6;
+}
+
+/* Dark mode: Edge labels */
+.dark .react-flow__edge-text {
+  fill: #f3f4f6;
+}
+
+.dark .react-flow__edge-textbg {
+  fill: #1f2937;
+}
+
+/* Dark mode: Minimap (in case it's re-enabled) */
+.dark .react-flow__minimap {
+  background-color: #1f2937;
+  border-color: #374151;
+}
+
+.dark .react-flow__minimap-mask {
+  fill: #3b82f6;
+  fill-opacity: 0.3;
+}
+
+.dark .react-flow__minimap-node {
+  fill: #6b7280;
+}
+
+/* Dark mode: Selection box */
+.dark .react-flow__selection {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid #3b82f6;
+}
+
+/* Dark mode: Resize control */
+.dark .react-flow__resize-control {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.dark .react-flow__resize-control:hover {
+  background: #374151;
+}

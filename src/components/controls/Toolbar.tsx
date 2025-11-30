@@ -74,96 +74,98 @@ const Toolbar: FC = () => {
   }
 
   return (
-    <div className="flex items-center gap-2 px-4 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-      {/* State Management */}
-      <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-gray-700">
-        <Button
-          variant="primary"
-          size="md"
-          onClick={handleAddState}
-          title="Aggiungi stato (Clicca sul canvas)"
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          Nuovo Stato
-        </Button>
-
-        <Button
-          variant="danger"
-          size="md"
-          onClick={handleClear}
-          disabled={dfa.getStates().length === 0}
-          title="Cancella tutto"
-        >
-          <Trash2 className="w-4 h-4" />
-        </Button>
-      </div>
-
-      {/* File Operations */}
-      <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-gray-700">
-        <Button
-          variant="secondary"
-          size="md"
-          onClick={handleSave}
-          disabled={dfa.getStates().length === 0}
-          title="Salva DFA (Ctrl+S)"
-        >
-          <Save className="w-4 h-4 mr-2" />
-          Salva
-        </Button>
-
-        <Button
-          variant="secondary"
-          size="md"
-          onClick={handleLoad}
-          title="Carica DFA"
-        >
-          <FolderOpen className="w-4 h-4 mr-2" />
-          Carica
-        </Button>
-
-        <Button
-          variant="secondary"
-          size="md"
-          disabled={dfa.getStates().length === 0}
-          title="Esporta come immagine"
-        >
-          <Download className="w-4 h-4" />
-        </Button>
-      </div>
-
-      {/* Execution Controls */}
-      {execution.executionResult && (
-        <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-gray-700">
+    <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40">
+      <div className="glass-panel px-4 py-2 flex items-center gap-4">
+        {/* State Management */}
+        <div className="flex items-center gap-2 pr-4 border-r border-white/10">
           <Button
             variant="primary"
             size="md"
-            onClick={handleToggleExecution}
-            title={execution.isPaused ? 'Riprendi (Spazio)' : 'Pausa (Spazio)'}
+            onClick={handleAddState}
+            title="Aggiungi stato (Clicca sul canvas)"
+            className="shadow-lg shadow-primary-500/20"
           >
-            {execution.isPaused || !execution.isExecuting ? (
-              <Play className="w-4 h-4" />
-            ) : (
-              <Pause className="w-4 h-4" />
-            )}
+            <Plus className="w-4 h-4 mr-2" />
+            Nuovo Stato
+          </Button>
+
+          <Button
+            variant="danger"
+            size="md"
+            onClick={handleClear}
+            disabled={dfa.getStates().length === 0}
+            title="Cancella tutto"
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        </div>
+
+        {/* File Operations */}
+        <div className="flex items-center gap-2 pr-4 border-r border-white/10">
+          <Button
+            variant="secondary"
+            size="md"
+            onClick={handleSave}
+            disabled={dfa.getStates().length === 0}
+            title="Salva DFA (Ctrl+S)"
+          >
+            <Save className="w-4 h-4" />
           </Button>
 
           <Button
             variant="secondary"
             size="md"
-            onClick={() => execution.reset()}
-            title="Reset"
+            onClick={handleLoad}
+            title="Carica DFA"
           >
-            <RotateCcw className="w-4 h-4" />
+            <FolderOpen className="w-4 h-4" />
+          </Button>
+
+          <Button
+            variant="secondary"
+            size="md"
+            disabled={dfa.getStates().length === 0}
+            title="Esporta come immagine"
+          >
+            <Download className="w-4 h-4" />
           </Button>
         </div>
-      )}
 
-      {/* Help & Theme */}
-      <div className="ml-auto flex items-center gap-2">
-        <ThemeToggle />
-        <Button variant="ghost" size="md" title="Aiuto">
-          <HelpCircle className="w-4 h-4" />
-        </Button>
+        {/* Execution Controls */}
+        {execution.executionResult && (
+          <div className="flex items-center gap-2 pr-4 border-r border-white/10">
+            <Button
+              variant="primary"
+              size="md"
+              onClick={handleToggleExecution}
+              title={execution.isPaused ? 'Riprendi (Spazio)' : 'Pausa (Spazio)'}
+              className="shadow-lg shadow-primary-500/20"
+            >
+              {execution.isPaused || !execution.isExecuting ? (
+                <Play className="w-4 h-4" />
+              ) : (
+                <Pause className="w-4 h-4" />
+              )}
+            </Button>
+
+            <Button
+              variant="secondary"
+              size="md"
+              onClick={() => execution.reset()}
+              title="Reset"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </Button>
+          </div>
+        )}
+
+        {/* Help & Theme */}
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <Button variant="ghost" size="md" title="Aiuto">
+            <HelpCircle className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
     </div>
   )

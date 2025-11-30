@@ -7,7 +7,6 @@ import {
   ReactFlow,
   Background,
   Controls,
-  MiniMap,
   NodeChange,
   EdgeChange,
   Connection,
@@ -21,7 +20,7 @@ import { useDFA } from '@/hooks/useDFA'
 import { useExecutionStore } from '@/store/executionStore'
 import { useTheme } from '@/contexts/ThemeContext'
 import { DFA } from '@/core/dfa/DFA'
-import type { DFANode, DFAEdge, DFATransition, DFANodeData } from '@/types'
+import type { DFANode, DFAEdge, DFATransition } from '@/types'
 
 const nodeTypes = {
   stateNode: MemoizedStateNode,
@@ -179,7 +178,7 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         fitView
-        attributionPosition="bottom-left"
+        proOptions={{ hideAttribution: true }}
       >
         <Background
           variant={BackgroundVariant.Dots}
@@ -188,20 +187,6 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
           color={theme === 'dark' ? '#4b5563' : '#d1d5db'}
         />
         <Controls />
-        <MiniMap
-          nodeColor={(node) => {
-            const data = node.data as DFANodeData
-            if (data.type === 'initial' || data.type === 'initial-accepting') {
-              return '#3b82f6'
-            }
-            if (data.type === 'accepting') {
-              return '#10b981'
-            }
-            return '#9ca3af'
-          }}
-          pannable
-          zoomable
-        />
       </ReactFlow>
     </div>
   )

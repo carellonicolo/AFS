@@ -16,10 +16,32 @@ export function useKeyboardShortcuts() {
       const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
       const modifier = isMac ? e.metaKey : e.ctrlKey
 
-      // Delete selected element
-      if (e.key === 'Delete' || e.key === 'Backspace') {
-        e.preventDefault()
-        dfa.deleteSelected()
+      // Check if user is typing in an input/textarea
+      const target = e.target as HTMLElement
+      const isInputFocused =
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable
+
+      // Delete selected element (Delete/Backspace)
+      if ((e.key === 'Delete' || e.key === 'Backspace') && !isInputFocused) {
+        // Get selected state for confirmation
+        const selectedState = dfa.selectedNodeId
+          ? dfa.getStates().find((s) => s.id === dfa.selectedNodeId)
+          : null
+
+        // For states, show confirmation dialog
+        if (selectedState) {
+          if (confirm(`Eliminare lo stato "${selectedState.label}"?`)) {
+            e.preventDefault()
+            dfa.deleteSelected()
+          }
+        }
+        // For transitions, delete without confirmation
+        else if (dfa.selectedEdgeId) {
+          e.preventDefault()
+          dfa.deleteSelected()
+        }
       }
 
       // Save (Ctrl/Cmd + S)
