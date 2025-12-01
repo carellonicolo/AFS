@@ -14,7 +14,7 @@ import { Settings, Play } from 'lucide-react'
 import { clsx } from 'clsx'
 
 const App: FC = () => {
-  const { isSidebarOpen, closeSidebar } = useUIStore()
+  const { isSidebarOpen, closeSidebar, openSidebar } = useUIStore()
   const [activeTab, setActiveTab] = useState<'properties' | 'test'>('properties')
 
   // Enable keyboard shortcuts
@@ -25,7 +25,7 @@ const App: FC = () => {
 
   return (
     <ThemeProvider>
-      <AppLayout>
+      <AppLayout onOpenSidebar={openSidebar}>
         <div className="flex flex-col h-full">
           <Toolbar />
           <div className="flex flex-1 overflow-hidden">

@@ -21,9 +21,9 @@ const Sidebar: FC<SidebarProps> = ({ isOpen, onClose, title, children }) => {
 
       {/* Sidebar */}
       <div className={`
-        fixed right-4 top-24 bottom-4 w-80 glass-panel z-40
+        fixed right-4 top-24 bottom-28 sm:bottom-4 w-[calc(100%-2rem)] sm:w-80 glass-panel z-50
         transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : 'translate-x-[110%]'}
+        ${isOpen ? 'translate-x-0' : 'translate-x-[150%]'}
         lg:translate-x-0
       `}>
         <div className="flex flex-col h-full">
