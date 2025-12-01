@@ -131,16 +131,28 @@ export class DFA {
     const toState = this.getState(transition.to)
 
     if (!fromState) {
-      throw new Error(`Source state ${transition.from} not found`)
+      throw new Error(`Stato sorgente ${transition.from} non trovato`)
     }
     if (!toState) {
-      throw new Error(`Target state ${transition.to} not found`)
+      throw new Error(`Stato destinazione ${transition.to} non trovato`)
     }
 
     // Validate symbol is in alphabet
     if (!this.definition.alphabet.includes(transition.symbol)) {
       throw new Error(
-        `Symbol '${transition.symbol}' not in alphabet {${this.definition.alphabet.join(', ')}}`
+        `Il simbolo '${transition.symbol}' non è nell'alfabeto {${this.definition.alphabet.join(', ')}}`
+      )
+    }
+
+    // DFA Determinism: Check if a transition with the same source state and symbol already exists
+    const existingTransition = this.definition.transitions.find(
+      (t) => t.from === transition.from && t.symbol === transition.symbol
+    )
+
+    if (existingTransition) {
+      const existingToState = this.getState(existingTransition.to)
+      throw new Error(
+        `Vincolo DFA violato: Lo stato '${fromState.label}' ha già una transizione con il simbolo '${transition.symbol}' verso lo stato '${existingToState?.label}'. In un DFA, ogni stato può avere al massimo una transizione per simbolo.`
       )
     }
 
@@ -172,8 +184,9 @@ export class DFA {
       throw new Error(`Transition with id ${transitionId} not found`)
     }
 
+    const currentTransition = this.definition.transitions[transitionIndex]
     const updatedTransition = {
-      ...this.definition.transitions[transitionIndex],
+      ...currentTransition,
       ...updates,
     }
 
@@ -183,7 +196,24 @@ export class DFA {
       !this.definition.alphabet.includes(updates.symbol)
     ) {
       throw new Error(
-        `Symbol '${updates.symbol}' not in alphabet {${this.definition.alphabet.join(', ')}}`
+        `Il simbolo '${updates.symbol}' non è nell'alfabeto {${this.definition.alphabet.join(', ')}}`
+      )
+    }
+
+    // DFA Determinism: Check if the update would create a duplicate transition
+    // (same source state and symbol, but exclude the current transition being updated)
+    const finalFromState = updates.from ?? currentTransition.from
+    const finalSymbol = updates.symbol ?? currentTransition.symbol
+
+    const conflictingTransition = this.definition.transitions.find(
+      (t) => t.id !== transitionId && t.from === finalFromState && t.symbol === finalSymbol
+    )
+
+    if (conflictingTransition) {
+      const fromState = this.getState(finalFromState)
+      const conflictingToState = this.getState(conflictingTransition.to)
+      throw new Error(
+        `Vincolo DFA violato: Lo stato '${fromState?.label}' ha già una transizione con il simbolo '${finalSymbol}' verso lo stato '${conflictingToState?.label}'. In un DFA, ogni stato può avere al massimo una transizione per simbolo.`
       )
     }
 
@@ -232,13 +262,13 @@ export class DFA {
   setAlphabet(alphabet: string[]): void {
     // Validate that alphabet is not empty
     if (alphabet.length === 0) {
-      throw new Error('Alphabet cannot be empty')
+      throw new Error('L\'alfabeto non può essere vuoto')
     }
 
     // Validate that alphabet symbols are single characters
     for (const symbol of alphabet) {
       if (symbol.length !== 1) {
-        throw new Error(`Alphabet symbols must be single characters: '${symbol}'`)
+        throw new Error(`I simboli dell'alfabeto devono essere caratteri singoli: '${symbol}'`)
       }
     }
 

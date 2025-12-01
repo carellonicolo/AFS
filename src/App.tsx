@@ -13,6 +13,8 @@ import ConfirmDialog from './components/ui/ConfirmDialog'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { Settings, Play } from 'lucide-react'
 import { clsx } from 'clsx'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const App: FC = () => {
   const { isSidebarOpen, closeSidebar, openSidebar } = useUIStore()
@@ -89,6 +91,18 @@ const App: FC = () => {
         </div>
       </AppLayout>
       <ConfirmDialog />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </ThemeProvider>
   )
 }

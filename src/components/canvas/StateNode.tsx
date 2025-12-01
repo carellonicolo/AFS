@@ -105,13 +105,13 @@ const StateNode: FC<NodeProps> = ({ data: rawData, selected }) => {
         type="source"
         position={Position.Top}
         id="top"
-        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5"
       />
       <Handle
         type="target"
         position={Position.Top}
         id="top-target"
-        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5"
         style={{ pointerEvents: 'none' }}
       />
 
@@ -120,13 +120,13 @@ const StateNode: FC<NodeProps> = ({ data: rawData, selected }) => {
         type="source"
         position={Position.Bottom}
         id="bottom"
-        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5"
       />
       <Handle
         type="target"
         position={Position.Bottom}
         id="bottom-target"
-        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5"
         style={{ pointerEvents: 'none' }}
       />
 
@@ -135,13 +135,13 @@ const StateNode: FC<NodeProps> = ({ data: rawData, selected }) => {
         type="source"
         position={Position.Left}
         id="left"
-        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5"
       />
       <Handle
         type="target"
         position={Position.Left}
         id="left-target"
-        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5"
         style={{ pointerEvents: 'none' }}
       />
 
@@ -150,13 +150,13 @@ const StateNode: FC<NodeProps> = ({ data: rawData, selected }) => {
         type="source"
         position={Position.Right}
         id="right"
-        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5"
       />
       <Handle
         type="target"
         position={Position.Right}
         id="right-target"
-        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5"
         style={{ pointerEvents: 'none' }}
       />
     </div>

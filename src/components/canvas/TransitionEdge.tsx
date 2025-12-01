@@ -27,6 +27,23 @@ const TransitionEdge: FC<EdgeProps> = ({
 }) => {
   const { theme } = useTheme()
 
+  const edgeData = data as DFAEdgeData | undefined
+  const isHighlighted = edgeData?.isHighlighted
+  const isAnimating = edgeData?.isAnimating
+
+  // Get edge index and total edges for curvature calculation
+  const edgeIndex = edgeData?.edgeIndex ?? 0
+  const totalEdges = edgeData?.totalEdges ?? 1
+
+  // Calculate curvature offset for multiple edges between same nodes
+  let curvature = 0
+  if (totalEdges > 1) {
+    // Spread edges evenly with curvature
+    const maxCurvature = 0.5
+    const step = (maxCurvature * 2) / (totalEdges - 1)
+    curvature = -maxCurvature + (edgeIndex * step)
+  }
+
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
@@ -34,11 +51,8 @@ const TransitionEdge: FC<EdgeProps> = ({
     targetX,
     targetY,
     targetPosition,
+    curvature,
   })
-
-  const edgeData = data as DFAEdgeData | undefined
-  const isHighlighted = edgeData?.isHighlighted
-  const isAnimating = edgeData?.isAnimating
 
   // Determine which marker to use based on state
   const getMarkerEnd = () => {

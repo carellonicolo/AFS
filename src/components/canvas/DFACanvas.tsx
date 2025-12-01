@@ -21,6 +21,7 @@ import { useExecutionStore } from '@/store/executionStore'
 import { useTheme } from '@/contexts/ThemeContext'
 import { DFA } from '@/core/dfa/DFA'
 import type { DFANode, DFAEdge, DFATransition } from '@/types'
+import { toast } from 'react-toastify'
 
 const nodeTypes = {
   stateNode: MemoizedStateNode,
@@ -66,17 +67,38 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
     const currentStep = execution.getCurrentStep()
     const isExecuting = execution.isExecuting
 
-    return transitions.map((transition) => ({
-      id: transition.id,
-      source: transition.from,
-      target: transition.to,
-      type: 'transitionEdge',
-      data: {
-        ...transition,
-        isHighlighted: currentStep?.transitionUsed === transition.id,
-        isAnimating: isExecuting && currentStep?.transitionUsed === transition.id,
-      },
-    }))
+    // Group transitions by source-target pair to calculate edge indices
+    const edgeGroups = new Map<string, DFATransition[]>()
+
+    transitions.forEach((transition) => {
+      const key = `${transition.from}-${transition.to}`
+      if (!edgeGroups.has(key)) {
+        edgeGroups.set(key, [])
+      }
+      edgeGroups.get(key)!.push(transition)
+    })
+
+    return transitions.map((transition) => {
+      const key = `${transition.from}-${transition.to}`
+      const group = edgeGroups.get(key)!
+      const edgeIndex = group.findIndex(t => t.id === transition.id)
+      const totalEdges = group.length
+
+      return {
+        id: transition.id,
+        source: transition.from,
+        target: transition.to,
+        type: 'transitionEdge',
+        selected: selectedEdgeId === transition.id,
+        data: {
+          ...transition,
+          isHighlighted: currentStep?.transitionUsed === transition.id,
+          isAnimating: isExecuting && currentStep?.transitionUsed === transition.id,
+          edgeIndex,
+          totalEdges,
+        },
+      }
+    })
   }, [transitions, execution, selectedEdgeId])
 
   // Handle node changes (position, selection, etc.)
@@ -124,22 +146,57 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
     (connection: Connection) => {
       if (!connection.source || !connection.target) return
 
-      // Get default symbol from alphabet
+      // Get alphabet
       const alphabet = dfa.getAlphabet()
-      const defaultSymbol = alphabet[0] || '0'
 
-      // Create transition
+      // Find the first available symbol for this source state
+      // (a symbol that doesn't already have a transition from this state)
+      const allTransitions = dfa.getTransitions()
+      const existingTransitions = allTransitions.filter((t: DFATransition) => t.from === connection.source)
+      const usedSymbols = new Set(existingTransitions.map((t: DFATransition) => t.symbol))
+
+      console.log('=== DEBUG onConnect ===')
+      console.log('Source:', connection.source)
+      console.log('Target:', connection.target)
+      console.log('Alphabet:', alphabet)
+      console.log('All transitions:', allTransitions)
+      console.log('Existing transitions from source:', existingTransitions)
+      console.log('Used symbols:', Array.from(usedSymbols))
+
+      const availableSymbol = alphabet.find(symbol => !usedSymbols.has(symbol))
+      console.log('Available symbol:', availableSymbol)
+
+      if (!availableSymbol) {
+        toast.error(
+          `Lo stato sorgente ha già transizioni per tutti i simboli dell'alfabeto. Non è possibile aggiungere altre transizioni.`,
+          {
+            position: 'bottom-right',
+            autoClose: 5000,
+          }
+        )
+        return
+      }
+
+      // Create transition with the first available symbol
       const transition: DFATransition = {
         id: DFA.generateTransitionId(),
         from: connection.source,
         to: connection.target,
-        symbol: defaultSymbol,
+        symbol: availableSymbol,
       }
+
+      console.log('Creating transition:', transition)
 
       try {
         dfa.addTransition(transition)
+        console.log('Transition added successfully')
       } catch (error) {
-        console.error('Failed to create transition:', error)
+        console.error('Error adding transition:', error)
+        const errorMessage = error instanceof Error ? error.message : 'Errore sconosciuto'
+        toast.error(errorMessage, {
+          position: 'bottom-right',
+          autoClose: 5000,
+        })
       }
     },
     [dfa]
@@ -164,6 +221,15 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
       dfa.selectEdge(edge.id)
     },
     [dfa]
+  )
+
+  // Allow multiple connections between same nodes (for different symbols)
+  const isValidConnection = useCallback(
+    () => {
+      // Always allow connections - we'll validate in onConnect
+      return true
+    },
+    []
   )
 
   return (
@@ -236,6 +302,7 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
         onEdgeClick={onEdgeClick}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
+        isValidConnection={isValidConnection}
         fitView
         proOptions={{ hideAttribution: true }}
       >

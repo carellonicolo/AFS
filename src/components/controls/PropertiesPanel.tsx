@@ -10,6 +10,7 @@ import Badge from '../ui/Badge'
 import Button from '../ui/Button'
 import { Trash2 } from 'lucide-react'
 import type { StateType } from '@/types'
+import { toast } from 'react-toastify'
 
 const PropertiesPanel: FC = () => {
   const dfa = useDFA()
@@ -47,7 +48,8 @@ const PropertiesPanel: FC = () => {
       try {
         dfa.updateState(selectedState.id, { label: sanitizedValue })
       } catch (error) {
-        console.error('Failed to update state label:', error)
+        const errorMessage = error instanceof Error ? error.message : 'Errore durante l\'aggiornamento dello stato'
+        toast.error(errorMessage)
       }
     }
   }
@@ -58,7 +60,8 @@ const PropertiesPanel: FC = () => {
       try {
         dfa.updateState(selectedState.id, { type })
       } catch (error) {
-        console.error('Failed to update state type:', error)
+        const errorMessage = error instanceof Error ? error.message : 'Errore durante l\'aggiornamento del tipo di stato'
+        toast.error(errorMessage)
       }
     }
   }
@@ -69,7 +72,10 @@ const PropertiesPanel: FC = () => {
       try {
         dfa.updateTransition(selectedTransition.id, { symbol: value })
       } catch (error) {
-        console.error('Failed to update transition:', error)
+        const errorMessage = error instanceof Error ? error.message : 'Errore durante l\'aggiornamento della transizione'
+        toast.error(errorMessage)
+        // Revert to previous value on error
+        setTransitionSymbol(selectedTransition.symbol)
       }
     }
   }
