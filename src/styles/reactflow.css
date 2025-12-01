@@ -23,12 +23,14 @@
 }
 
 .react-flow__edge.selected .react-flow__edge-path {
-  stroke: #3b82f6;
-  stroke-width: 3;
+  stroke: #3b82f6 !important;
+  stroke-width: 5 !important;
+  filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 20px rgba(59, 130, 246, 0.4)) !important;
 }
 
 .react-flow__edge:hover .react-flow__edge-path {
   stroke-width: 3;
+  opacity: 0.8;
 }
 
 /* Edge label */
@@ -171,4 +173,37 @@
 
 .dark .react-flow__resize-control:hover {
   background: #374151;
+}
+
+/* ===================================
+   ENHANCED EDGE SELECTION
+   =================================== */
+
+.dark .react-flow__edge.selected .react-flow__edge-path {
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+}
+
+/* ===================================
+   IMPROVED HANDLE INTERACTION
+   =================================== */
+
+.react-flow__handle {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: crosshair;
+}
+
+.react-flow__handle:hover {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.dark .react-flow__handle:hover {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+}
+
+/* ===================================
+   SMOOTH TRANSITIONS
+   =================================== */
+
+.react-flow__edge-path {
+  transition: stroke 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease;
 }

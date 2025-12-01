@@ -7,6 +7,17 @@ import { create } from 'zustand'
 type DialogType = 'export' | 'import' | 'gallery' | 'tutorial' | 'help' | null
 type PanelType = 'properties' | 'test' | 'history' | null
 
+interface ConfirmDialogState {
+  isOpen: boolean
+  title: string
+  message: string
+  confirmLabel: string
+  cancelLabel: string
+  variant: 'danger' | 'warning'
+  onConfirm: () => void
+  onCancel?: () => void
+}
+
 interface UIStore {
   // State
   activeDialog: DialogType
@@ -15,10 +26,17 @@ interface UIStore {
   tutorialStep: number
   isTutorialActive: boolean
   showValidationErrors: boolean
+  confirmDialog: ConfirmDialogState | null
 
   // Dialog actions
   openDialog: (dialog: DialogType) => void
   closeDialog: () => void
+
+  // Confirm dialog actions
+  openConfirm: (config: Omit<ConfirmDialogState, 'isOpen'>) => void
+  closeConfirm: () => void
+  confirmAction: () => void
+  cancelAction: () => void
 
   // Sidebar actions
   toggleSidebar: () => void
@@ -41,7 +59,7 @@ interface UIStore {
   toggleValidationErrors: () => void
 }
 
-export const useUIStore = create<UIStore>((set) => ({
+export const useUIStore = create<UIStore>((set, get) => ({
   // Initial state
   activeDialog: null,
   isSidebarOpen: true,
@@ -49,10 +67,39 @@ export const useUIStore = create<UIStore>((set) => ({
   tutorialStep: 0,
   isTutorialActive: false,
   showValidationErrors: true,
+  confirmDialog: null,
 
   // Dialog actions
   openDialog: (dialog) => set({ activeDialog: dialog }),
   closeDialog: () => set({ activeDialog: null }),
+
+  // Confirm dialog actions
+  openConfirm: (config) => set({
+    confirmDialog: {
+      ...config,
+      isOpen: true,
+      confirmLabel: config.confirmLabel || 'Conferma',
+      cancelLabel: config.cancelLabel || 'Annulla'
+    }
+  }),
+
+  closeConfirm: () => set({ confirmDialog: null }),
+
+  confirmAction: () => {
+    const dialog = get().confirmDialog
+    if (dialog) {
+      dialog.onConfirm()
+      get().closeConfirm()
+    }
+  },
+
+  cancelAction: () => {
+    const dialog = get().confirmDialog
+    if (dialog) {
+      dialog.onCancel?.()
+      get().closeConfirm()
+    }
+  },
 
   // Sidebar actions
   toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),

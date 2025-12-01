@@ -41,10 +41,13 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
 
   // Convert DFA states to React Flow nodes
+  const states = dfa.getStates()
+  const transitions = dfa.getTransitions()
+  const selectedNodeId = dfa.selectedNodeId
+  const selectedEdgeId = dfa.selectedEdgeId
+
   const nodes: DFANode[] = useMemo(() => {
     const currentStep = execution.getCurrentStep()
-    const states = dfa.getStates()
-    const selectedId = dfa.selectedNodeId
 
     return states.map((state) => ({
       id: state.id,
@@ -53,15 +56,14 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
       data: {
         ...state,
         isHighlighted: currentStep?.currentState === state.id,
-        isSelected: selectedId === state.id,
+        isSelected: selectedNodeId === state.id,
       },
     }))
-  }, [dfa, execution, dfa.selectedNodeId])
+  }, [states, execution, selectedNodeId])
 
   // Convert DFA transitions to React Flow edges
   const edges: DFAEdge[] = useMemo(() => {
     const currentStep = execution.getCurrentStep()
-    const transitions = dfa.getTransitions()
     const isExecuting = execution.isExecuting
 
     return transitions.map((transition) => ({
@@ -75,7 +77,7 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
         isAnimating: isExecuting && currentStep?.transitionUsed === transition.id,
       },
     }))
-  }, [dfa, execution, dfa.selectedEdgeId])
+  }, [transitions, execution, selectedEdgeId])
 
   // Handle node changes (position, selection, etc.)
   const onNodesChange = useCallback(
@@ -166,6 +168,63 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
 
   return (
     <div ref={reactFlowWrapper} className={className} style={{ width: '100%', height: '100%' }}>
+      {/* SVG Marker Definitions for transition arrows */}
+      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+        <defs>
+          {/* Arrow marker for light mode */}
+          <marker
+            id="arrow-light"
+            viewBox="0 0 10 10"
+            refX="8"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280" stroke="none" />
+          </marker>
+
+          {/* Arrow marker for dark mode */}
+          <marker
+            id="arrow-dark"
+            viewBox="0 0 10 10"
+            refX="8"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3af" stroke="none" />
+          </marker>
+
+          {/* Arrow marker for highlighted/executing transition */}
+          <marker
+            id="arrow-highlight"
+            viewBox="0 0 10 10"
+            refX="8"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444" stroke="none" />
+          </marker>
+
+          {/* Arrow marker for selected transition */}
+          <marker
+            id="arrow-selected"
+            viewBox="0 0 10 10"
+            refX="8"
+            refY="5"
+            markerWidth="7"
+            markerHeight="7"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" stroke="none" />
+          </marker>
+        </defs>
+      </svg>
+
       <ReactFlow
         nodes={nodes}
         edges={edges}

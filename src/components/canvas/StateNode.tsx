@@ -99,26 +99,65 @@ const StateNode: FC<NodeProps> = ({ data: rawData, selected }) => {
         )}
       </div>
 
-      {/* Connection handles */}
+      {/* Connection handles - all bidirectional (source + target) */}
+      {/* Top handle */}
+      <Handle
+        type="source"
+        position={Position.Top}
+        id="top"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+      />
       <Handle
         type="target"
         position={Position.Top}
-        className="!bg-gray-400 dark:!bg-gray-600 !border-2 !border-white dark:!border-gray-800 !w-3 !h-3"
+        id="top-target"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+        style={{ pointerEvents: 'none' }}
       />
+
+      {/* Bottom handle */}
       <Handle
         type="source"
         position={Position.Bottom}
-        className="!bg-gray-400 dark:!bg-gray-600 !border-2 !border-white dark:!border-gray-800 !w-3 !h-3"
+        id="bottom"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+      />
+      <Handle
+        type="target"
+        position={Position.Bottom}
+        id="bottom-target"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+        style={{ pointerEvents: 'none' }}
+      />
+
+      {/* Left handle */}
+      <Handle
+        type="source"
+        position={Position.Left}
+        id="left"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
       />
       <Handle
         type="target"
         position={Position.Left}
-        className="!bg-gray-400 dark:!bg-gray-600 !border-2 !border-white dark:!border-gray-800 !w-3 !h-3"
+        id="left-target"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+        style={{ pointerEvents: 'none' }}
       />
+
+      {/* Right handle */}
       <Handle
         type="source"
         position={Position.Right}
-        className="!bg-gray-400 dark:!bg-gray-600 !border-2 !border-white dark:!border-gray-800 !w-3 !h-3"
+        id="right"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+      />
+      <Handle
+        type="target"
+        position={Position.Right}
+        id="right-target"
+        className="!bg-purple-500 dark:!bg-purple-400 !border-2 !border-white dark:!border-gray-800 !w-3.5 !h-3.5 hover:!scale-110 transition-transform"
+        style={{ pointerEvents: 'none' }}
       />
     </div>
   )

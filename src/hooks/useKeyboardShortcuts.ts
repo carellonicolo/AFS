@@ -5,11 +5,13 @@
 import { useEffect } from 'react'
 import { useDFA } from './useDFA'
 import { useExecution } from './useExecution'
+import { useUIStore } from '@/store/uiStore'
 import { DFASerializer } from '@/core/dfa/DFASerializer'
 
 export function useKeyboardShortcuts() {
   const dfa = useDFA()
   const execution = useExecution()
+  const { openConfirm } = useUIStore()
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -32,10 +34,16 @@ export function useKeyboardShortcuts() {
 
         // For states, show confirmation dialog
         if (selectedState) {
-          if (confirm(`Eliminare lo stato "${selectedState.label}"?`)) {
-            e.preventDefault()
-            dfa.deleteSelected()
-          }
+          e.preventDefault()
+          openConfirm({
+            title: 'Elimina Stato',
+            message: `Eliminare lo stato "${selectedState.label}"?`,
+            variant: 'danger',
+            confirmLabel: 'Elimina',
+            cancelLabel: 'Annulla',
+            onConfirm: () => dfa.deleteSelected(),
+            onCancel: undefined
+          })
         }
         // For transitions, delete without confirmation
         else if (dfa.selectedEdgeId) {
@@ -81,5 +89,5 @@ export function useKeyboardShortcuts() {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [dfa, execution])
+  }, [dfa, execution, openConfirm])
 }

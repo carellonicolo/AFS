@@ -7,8 +7,9 @@ import PropertiesPanel from './components/controls/PropertiesPanel'
 import AlphabetPanel from './components/controls/AlphabetPanel'
 import TestPanel from './components/controls/TestPanel'
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
-import { useAutoSave } from './hooks/useLocalStorage'
+import { useAutoSave, useLoadSaved } from './hooks/useLocalStorage'
 import { useUIStore } from './store/uiStore'
+import ConfirmDialog from './components/ui/ConfirmDialog'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { Settings, Play } from 'lucide-react'
 import { clsx } from 'clsx'
@@ -20,8 +21,9 @@ const App: FC = () => {
   // Enable keyboard shortcuts
   useKeyboardShortcuts()
 
-  // Enable autosave
+  // Enable autosave & autoload
   useAutoSave()
+  useLoadSaved()
 
   return (
     <ThemeProvider>
@@ -86,6 +88,7 @@ const App: FC = () => {
           </div>
         </div>
       </AppLayout>
+      <ConfirmDialog />
     </ThemeProvider>
   )
 }

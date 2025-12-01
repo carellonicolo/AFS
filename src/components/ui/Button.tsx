@@ -1,4 +1,4 @@
-import { FC, ButtonHTMLAttributes } from 'react'
+import { forwardRef, ButtonHTMLAttributes } from 'react'
 import { clsx } from 'clsx'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -6,13 +6,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'md' | 'lg'
 }
 
-const Button: FC<ButtonProps> = ({
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   variant = 'primary',
   size = 'md',
   className,
   children,
   ...props
-}) => {
+}, ref) => {
   const baseStyles = 'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95'
 
   const variants = {
@@ -30,12 +30,15 @@ const Button: FC<ButtonProps> = ({
 
   return (
     <button
+      ref={ref}
       className={clsx(baseStyles, variants[variant], sizes[size], className)}
       {...props}
     >
       {children}
     </button>
   )
-}
+})
+
+Button.displayName = 'Button'
 
 export default Button

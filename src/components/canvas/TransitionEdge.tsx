@@ -12,6 +12,7 @@ import {
 import { clsx } from 'clsx'
 import type { DFAEdgeData } from '@/types'
 import { COLORS } from '@/utils/constants'
+import { useTheme } from '@/contexts/ThemeContext'
 
 const TransitionEdge: FC<EdgeProps> = ({
   id,
@@ -24,6 +25,8 @@ const TransitionEdge: FC<EdgeProps> = ({
   data,
   selected,
 }) => {
+  const { theme } = useTheme()
+
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
@@ -37,14 +40,31 @@ const TransitionEdge: FC<EdgeProps> = ({
   const isHighlighted = edgeData?.isHighlighted
   const isAnimating = edgeData?.isAnimating
 
+  // Determine which marker to use based on state
+  const getMarkerEnd = () => {
+    if (isHighlighted) return 'url(#arrow-highlight)'
+    if (selected) return 'url(#arrow-selected)'
+    return theme === 'dark' ? 'url(#arrow-dark)' : 'url(#arrow-light)'
+  }
+
+  // Determine stroke color based on state
+  const getStrokeColor = () => {
+    if (isHighlighted) return COLORS.highlight
+    if (selected) return '#3b82f6'
+    return COLORS.transition
+  }
+
   return (
     <>
       <BaseEdge
         id={id}
         path={edgePath}
+        markerEnd={getMarkerEnd()}
         style={{
-          stroke: isHighlighted ? COLORS.highlight : COLORS.transition,
-          strokeWidth: selected ? 3 : 2,
+          stroke: getStrokeColor(),
+          strokeWidth: selected ? 5 : 2,
+          filter: selected ? 'drop-shadow(0 0 10px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 20px rgba(59, 130, 246, 0.4))' : undefined,
+          transition: 'all 0.2s ease',
         }}
         className={clsx(isAnimating && 'transition-animated')}
       />
@@ -60,9 +80,12 @@ const TransitionEdge: FC<EdgeProps> = ({
         >
           <div
             className={clsx(
-              'px-2 py-1 bg-white dark:bg-gray-800 border-2 rounded text-sm font-semibold',
+              'px-2 py-1 bg-white dark:bg-gray-800 rounded text-sm font-semibold',
               'shadow-sm cursor-pointer text-gray-900 dark:text-gray-100',
-              selected ? 'border-primary-500 dark:border-primary-400' : 'border-gray-300 dark:border-gray-600',
+              'transition-all duration-200',
+              selected
+                ? 'border-4 border-primary-500 dark:border-primary-400 scale-110 shadow-lg ring-2 ring-primary-300 dark:ring-primary-600'
+                : 'border-2 border-gray-300 dark:border-gray-600',
               isHighlighted && 'bg-red-50 dark:bg-red-950 border-red-500 dark:border-red-400'
             )}
           >

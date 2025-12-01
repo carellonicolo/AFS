@@ -4,6 +4,7 @@
 
 import { FC, useState, useEffect } from 'react'
 import { useDFA } from '@/hooks/useDFA'
+import { useConfirm } from '@/hooks/useConfirm'
 import Input from '../ui/Input'
 import Badge from '../ui/Badge'
 import Button from '../ui/Button'
@@ -12,6 +13,7 @@ import type { StateType } from '@/types'
 
 const PropertiesPanel: FC = () => {
   const dfa = useDFA()
+  const { confirm } = useConfirm()
   const selectedState = dfa.selectedNodeId
     ? dfa.getStates().find((s) => s.id === dfa.selectedNodeId)
     : null
@@ -72,9 +74,17 @@ const PropertiesPanel: FC = () => {
     }
   }
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (selectedState) {
-      if (confirm(`Eliminare lo stato "${selectedState.label}"?`)) {
+      const confirmed = await confirm({
+        title: 'Elimina Stato',
+        message: `Sei sicuro di voler eliminare lo stato "${selectedState.label}"? Questa azione non può essere annullata.`,
+        variant: 'danger',
+        confirmLabel: 'Elimina',
+        cancelLabel: 'Annulla'
+      })
+
+      if (confirmed) {
         dfa.removeState(selectedState.id)
       }
     } else if (selectedTransition) {

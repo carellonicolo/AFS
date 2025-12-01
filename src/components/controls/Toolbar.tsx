@@ -17,11 +17,13 @@ import {
 import Button from '../ui/Button'
 import ThemeToggle from '../ui/ThemeToggle'
 import { useDFA } from '@/hooks/useDFA'
+import { useConfirm } from '@/hooks/useConfirm'
 import { useExecutionStore } from '@/store/executionStore'
 import { DFASerializer } from '@/core/dfa/DFASerializer'
 
 const Toolbar: FC = () => {
   const dfa = useDFA()
+  const { confirm } = useConfirm()
   const execution = useExecutionStore()
   const handleAddState = () => {
     try {
@@ -36,8 +38,16 @@ const Toolbar: FC = () => {
     }
   }
 
-  const handleClear = () => {
-    if (confirm('Sei sicuro di voler cancellare tutto il DFA?')) {
+  const handleClear = async () => {
+    const confirmed = await confirm({
+      title: 'Cancella DFA',
+      message: 'Sei sicuro di voler cancellare tutto il DFA? Tutti gli stati e transizioni saranno eliminati. Questa azione non può essere annullata.',
+      variant: 'danger',
+      confirmLabel: 'Cancella Tutto',
+      cancelLabel: 'Annulla'
+    })
+
+    if (confirmed) {
       dfa.clearDFA()
     }
   }
