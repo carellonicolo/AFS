@@ -1,5 +1,11 @@
 # DFA Visual Editor
 
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue.svg)
+![React](https://img.shields.io/badge/React-18.2-blue.svg)
+![Vite](https://img.shields.io/badge/Vite-5.1-646CFF.svg)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC.svg)
+
 Editor visuale per Automi a Stati Finiti Deterministici (DFA) - Un'applicazione web intuitiva per creare, testare e visualizzare DFA.
 
 ## Caratteristiche

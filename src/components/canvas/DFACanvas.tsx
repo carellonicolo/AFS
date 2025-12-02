@@ -6,7 +6,6 @@ import { FC, useCallback, useMemo, useRef } from 'react'
 import {
   ReactFlow,
   Background,
-  Controls,
   NodeChange,
   EdgeChange,
   Connection,
@@ -18,7 +17,7 @@ import MemoizedStateNode from './MemoizedStateNode'
 import MemoizedTransitionEdge from './MemoizedTransitionEdge'
 import { useDFA } from '@/hooks/useDFA'
 import { useExecutionStore } from '@/store/executionStore'
-import { useTheme } from '@/contexts/ThemeContext'
+import { useTheme } from '@/hooks/useTheme'
 import { DFA } from '@/core/dfa/DFA'
 import type { DFANode, DFAEdge, DFATransition } from '@/types'
 import { toast } from 'react-toastify'
@@ -35,6 +34,11 @@ interface DFACanvasProps {
   className?: string
 }
 
+/**
+ * Main Canvas Component.
+ * Renders the React Flow instance, handles node/edge rendering,
+ * and manages user interactions (selection, connection, drag).
+ */
 const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
   const dfa = useDFA()
   const execution = useExecutionStore()
@@ -88,6 +92,8 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
         id: transition.id,
         source: transition.from,
         target: transition.to,
+        sourceHandle: transition.sourceHandle,
+        targetHandle: transition.targetHandle,
         type: 'transitionEdge',
         selected: selectedEdgeId === transition.id,
         data: {
@@ -155,16 +161,7 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
       const existingTransitions = allTransitions.filter((t: DFATransition) => t.from === connection.source)
       const usedSymbols = new Set(existingTransitions.map((t: DFATransition) => t.symbol))
 
-      console.log('=== DEBUG onConnect ===')
-      console.log('Source:', connection.source)
-      console.log('Target:', connection.target)
-      console.log('Alphabet:', alphabet)
-      console.log('All transitions:', allTransitions)
-      console.log('Existing transitions from source:', existingTransitions)
-      console.log('Used symbols:', Array.from(usedSymbols))
-
       const availableSymbol = alphabet.find(symbol => !usedSymbols.has(symbol))
-      console.log('Available symbol:', availableSymbol)
 
       if (!availableSymbol) {
         toast.error(
@@ -183,13 +180,12 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
         from: connection.source,
         to: connection.target,
         symbol: availableSymbol,
+        sourceHandle: connection.sourceHandle ?? undefined,
+        targetHandle: connection.targetHandle ?? undefined,
       }
-
-      console.log('Creating transition:', transition)
 
       try {
         dfa.addTransition(transition)
-        console.log('Transition added successfully')
       } catch (error) {
         console.error('Error adding transition:', error)
         const errorMessage = error instanceof Error ? error.message : 'Errore sconosciuto'
@@ -276,14 +272,13 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
             <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444" stroke="none" />
           </marker>
 
-          {/* Arrow marker for selected transition */}
           <marker
             id="arrow-selected"
             viewBox="0 0 10 10"
             refX="8"
             refY="5"
-            markerWidth="7"
-            markerHeight="7"
+            markerWidth="4"
+            markerHeight="4"
             orient="auto-start-reverse"
           >
             <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" stroke="none" />
@@ -312,7 +307,6 @@ const DFACanvas: FC<DFACanvasProps> = ({ className }) => {
           size={1}
           color={theme === 'dark' ? '#4b5563' : '#d1d5db'}
         />
-        <Controls />
       </ReactFlow>
     </div>
   )

@@ -7,12 +7,18 @@ import { Handle, Position, NodeProps } from '@xyflow/react'
 import { clsx } from 'clsx'
 import type { DFANodeData } from '@/types'
 
+/**
+ * Custom Node Component for DFA States.
+ * Renders a state circle with label, handling selection and styling
+ * based on state type (initial, accepting, etc.).
+ */
 const StateNode: FC<NodeProps> = ({ data: rawData, selected }) => {
   const data = rawData as DFANodeData
-  if (!data) return null
 
   const [isEditing, setIsEditing] = useState(false)
-  const [label, setLabel] = useState(data.label)
+  const [label, setLabel] = useState(data?.label || '')
+
+  if (!data) return null
 
   const handleDoubleClick = () => {
     setIsEditing(true)

@@ -4,13 +4,12 @@ import DFACanvas from './components/canvas/DFACanvas'
 import Toolbar from './components/controls/Toolbar'
 import Sidebar from './components/layout/Sidebar'
 import PropertiesPanel from './components/controls/PropertiesPanel'
-import AlphabetPanel from './components/controls/AlphabetPanel'
 import TestPanel from './components/controls/TestPanel'
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 import { useAutoSave, useLoadSaved } from './hooks/useLocalStorage'
 import { useUIStore } from './store/uiStore'
 import ConfirmDialog from './components/ui/ConfirmDialog'
-import { ThemeProvider } from './contexts/ThemeContext'
+import { ThemeProvider } from '@/contexts/ThemeContext'
 import { Settings, Play } from 'lucide-react'
 import { clsx } from 'clsx'
 import { ToastContainer } from 'react-toastify'
@@ -77,7 +76,7 @@ const App: FC = () => {
                   <div className="space-y-6">
                     <PropertiesPanel />
                     <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-                      <AlphabetPanel />
+                      {/* Alphabet moved to header */}
                     </div>
                   </div>
                 )}

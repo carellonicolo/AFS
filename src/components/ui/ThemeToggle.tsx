@@ -4,7 +4,7 @@
 
 import { FC } from 'react'
 import { Moon, Sun } from 'lucide-react'
-import { useTheme } from '@/contexts/ThemeContext'
+import { useTheme } from '@/hooks/useTheme'
 
 const ThemeToggle: FC = () => {
   const { theme, toggleTheme } = useTheme()

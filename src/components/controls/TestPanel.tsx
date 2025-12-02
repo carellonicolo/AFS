@@ -44,6 +44,7 @@ const TestPanel: FC = () => {
       return
     }
 
+    dfa.clearSelection() // Deselect everything before running
     execution.run(inputString)
   }
 
@@ -56,6 +57,7 @@ const TestPanel: FC = () => {
       return
     }
 
+    dfa.clearSelection() // Deselect everything before running
     execution.runStepByStep(inputString)
   }
 
@@ -117,13 +119,12 @@ const TestPanel: FC = () => {
 
         {/* Execution Result */}
         {result && (
-          <div className={`mt-4 p-4 rounded-lg border-2 ${
-            result.accepted
+          <div className={`mt-4 p-4 rounded-lg border-2 ${result.accepted
               ? 'bg-green-50 border-green-500 dark:bg-green-950 dark:border-green-600'
               : result.error
-              ? 'bg-red-50 border-red-500 dark:bg-red-950 dark:border-red-600'
-              : 'bg-gray-50 border-gray-300 dark:bg-gray-800 dark:border-gray-600'
-          }`}>
+                ? 'bg-red-50 border-red-500 dark:bg-red-950 dark:border-red-600'
+                : 'bg-gray-50 border-gray-300 dark:bg-gray-800 dark:border-gray-600'
+            }`}>
             <div className="flex items-center gap-2 mb-2">
               {result.accepted ? (
                 <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />

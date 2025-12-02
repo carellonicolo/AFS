@@ -23,3 +23,5 @@ export type {
   DFAEdge,
   CanvasState,
 } from './reactflow.types'
+
+export type { Theme } from './theme'

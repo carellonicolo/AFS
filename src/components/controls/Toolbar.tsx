@@ -2,7 +2,7 @@
  * Main Toolbar Component
  */
 
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import {
   Plus,
   Play,
@@ -20,8 +20,10 @@ import { useDFA } from '@/hooks/useDFA'
 import { useConfirm } from '@/hooks/useConfirm'
 import { useExecutionStore } from '@/store/executionStore'
 import { DFASerializer } from '@/core/dfa/DFASerializer'
+import HelpModal from '../modals/HelpModal'
 
 const Toolbar: FC = () => {
+  const [isHelpOpen, setIsHelpOpen] = useState(false)
   const dfa = useDFA()
   const { confirm } = useConfirm()
   const execution = useExecutionStore()
@@ -172,11 +174,18 @@ const Toolbar: FC = () => {
         {/* Help & Theme */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button variant="ghost" size="md" title="Aiuto">
+          <Button
+            variant="ghost"
+            size="md"
+            title="Aiuto"
+            onClick={() => setIsHelpOpen(true)}
+          >
             <HelpCircle className="w-4 h-4" />
           </Button>
         </div>
       </div>
+
+      <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
     </div>
   )
 }

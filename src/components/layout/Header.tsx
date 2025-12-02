@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { Menu } from 'lucide-react'
+import { Menu, Github } from 'lucide-react'
+import HeaderAlphabet from './HeaderAlphabet'
 
 interface HeaderProps {
   onOpenSidebar?: () => void
@@ -23,7 +24,24 @@ const Header: FC<HeaderProps> = ({ onOpenSidebar }) => {
           </div>
         </div>
 
+
+
         <div className="flex items-center gap-2">
+          <div className="hidden md:block mr-2">
+            <HeaderAlphabet />
+          </div>
+
+          <a
+            href="https://github.com/carellonicolo/AFS"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gray-100/50 dark:bg-white/5 hover:bg-gray-200/50 dark:hover:bg-white/10 text-gray-700 dark:text-slate-200 transition-all duration-200 border border-gray-200/50 dark:border-white/5 hover:border-gray-300/50 dark:hover:border-white/20 group"
+            title="View Source on GitHub"
+          >
+            <Github className="w-4 h-4 group-hover:scale-110 transition-transform" />
+            <span className="text-sm font-medium hidden sm:block">GitHub</span>
+          </a>
+
           {/* Mobile Menu Button */}
           <button
             onClick={onOpenSidebar}

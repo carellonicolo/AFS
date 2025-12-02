@@ -7,6 +7,11 @@ import { useExecutionStore } from '@/store/executionStore'
 import { useDFAStore } from '@/store/dfaStore'
 import { DFAExecutor } from '@/core/dfa/DFAExecutor'
 
+/**
+ * Custom hook for DFA execution.
+ * Manages the execution state, stepping, and auto-play functionality.
+ * Connects the execution store with the DFA executor core logic.
+ */
 export function useExecution() {
   const execStore = useExecutionStore()
   const dfaStore = useDFAStore()

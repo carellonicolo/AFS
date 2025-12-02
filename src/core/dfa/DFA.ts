@@ -156,7 +156,11 @@ export class DFA {
       )
     }
 
-    this.definition.transitions.push(transition)
+    this.definition.transitions.push({
+      ...transition,
+      sourceHandle: transition.sourceHandle,
+      targetHandle: transition.targetHandle,
+    })
     this.updateModifiedDate()
   }
 
@@ -185,10 +189,7 @@ export class DFA {
     }
 
     const currentTransition = this.definition.transitions[transitionIndex]
-    const updatedTransition = {
-      ...currentTransition,
-      ...updates,
-    }
+    // updatedTransition removed as it was unused and redundant
 
     // Validate symbol if changed
     if (
@@ -217,7 +218,17 @@ export class DFA {
       )
     }
 
-    this.definition.transitions[transitionIndex] = updatedTransition
+    const finalTransition: DFATransition = {
+      ...currentTransition,
+      ...updates,
+      // Ensure handles are updated if provided
+      sourceHandle: updates.sourceHandle ?? currentTransition.sourceHandle,
+      targetHandle: updates.targetHandle ?? currentTransition.targetHandle,
+      curvature: updates.curvature ?? currentTransition.curvature,
+      controlPoints: updates.controlPoints ?? currentTransition.controlPoints,
+    }
+
+    this.definition.transitions[transitionIndex] = finalTransition
     this.updateModifiedDate()
   }
 

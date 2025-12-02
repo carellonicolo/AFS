@@ -15,6 +15,13 @@ export interface DFANodeData extends DFAState, Record<string, unknown> {
 export interface DFAEdgeData extends DFATransition, Record<string, unknown> {
   isHighlighted?: boolean // For execution visualization
   isAnimating?: boolean
+  edgeIndex?: number
+  totalEdges?: number
+  curvature?: number
+  controlPoints?: {
+    p1: { x: number; y: number }
+    p2: { x: number; y: number }
+  }
 }
 
 // React Flow node with DFA data

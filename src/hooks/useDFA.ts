@@ -7,6 +7,11 @@ import { useDFAStore } from '@/store/dfaStore'
 import { DFA } from '@/core/dfa/DFA'
 import type { DFAState, DFATransition } from '@/types'
 
+/**
+ * Custom hook for DFA operations.
+ * Provides methods to create states, transitions, and manage selection.
+ * Wraps the Zustand store and adds helper logic.
+ */
 export function useDFA() {
   const store = useDFAStore()
 

@@ -2,17 +2,9 @@
  * Theme Context - Dark/Light Mode Management
  */
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
-
-export type Theme = 'light' | 'dark'
-
-interface ThemeContextType {
-  theme: Theme
-  toggleTheme: () => void
-  setTheme: (theme: Theme) => void
-}
-
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
+import { useEffect, useState, ReactNode } from 'react'
+import { Theme } from '@/types'
+import { ThemeContext, ThemeContextType } from './theme-context'
 
 const STORAGE_KEY = 'dfa-theme'
 
@@ -73,15 +65,4 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   }
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
-}
-
-/**
- * Hook to use theme context
- */
-export function useTheme(): ThemeContextType {
-  const context = useContext(ThemeContext)
-  if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider')
-  }
-  return context
 }

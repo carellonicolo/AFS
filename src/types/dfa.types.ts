@@ -23,6 +23,13 @@ export interface DFATransition {
   from: string // Source state ID
   to: string // Target state ID
   symbol: string // Input symbol (single character)
+  sourceHandle?: string // Specific source handle ID (e.g., 'top', 'right')
+  targetHandle?: string // Specific target handle ID
+  curvature?: number // Custom curvature for the edge path
+  controlPoints?: {
+    p1: { x: number; y: number }
+    p2: { x: number; y: number }
+  }
   metadata?: {
     color?: string
   }
@@ -61,13 +68,13 @@ export interface ExecutionResult {
 // Validation error
 export interface ValidationError {
   type:
-    | 'NO_INITIAL_STATE'
-    | 'MULTIPLE_INITIAL_STATES'
-    | 'NON_DETERMINISTIC'
-    | 'INVALID_TRANSITION'
-    | 'UNREACHABLE_STATE'
-    | 'INCOMPLETE_TRANSITIONS'
-    | 'INVALID_SYMBOL'
+  | 'NO_INITIAL_STATE'
+  | 'MULTIPLE_INITIAL_STATES'
+  | 'NON_DETERMINISTIC'
+  | 'INVALID_TRANSITION'
+  | 'UNREACHABLE_STATE'
+  | 'INCOMPLETE_TRANSITIONS'
+  | 'INVALID_SYMBOL'
   message: string
   stateId?: string
   transitionId?: string
@@ -76,9 +83,9 @@ export interface ValidationError {
 // Validation warning
 export interface ValidationWarning {
   type:
-    | 'NO_ACCEPTING_STATE'
-    | 'UNREACHABLE_STATE'
-    | 'INCOMPLETE_TRANSITIONS'
+  | 'NO_ACCEPTING_STATE'
+  | 'UNREACHABLE_STATE'
+  | 'INCOMPLETE_TRANSITIONS'
   message: string
   stateId?: string
 }
