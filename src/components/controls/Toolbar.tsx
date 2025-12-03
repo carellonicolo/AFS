@@ -22,11 +22,98 @@ import { useExecutionStore } from '@/store/executionStore'
 import { DFASerializer } from '@/core/dfa/DFASerializer'
 import HelpModal from '../modals/HelpModal'
 
+import { useReactFlow, getNodesBounds } from '@xyflow/react'
+import { toPng } from 'html-to-image'
+import { toast } from 'react-toastify'
+
 const Toolbar: FC = () => {
   const [isHelpOpen, setIsHelpOpen] = useState(false)
   const dfa = useDFA()
   const { confirm } = useConfirm()
   const execution = useExecutionStore()
+  const { getNodes } = useReactFlow()
+
+  const handleDownloadImage = async () => {
+    const nodes = getNodes()
+
+    if (nodes.length === 0) {
+      toast.info('Nessun elemento da esportare.')
+      return
+    }
+
+    try {
+      // Get the React Flow wrapper element
+      const reactFlowWrapper = document.querySelector('.react-flow') as HTMLElement
+
+      if (!reactFlowWrapper) {
+        toast.error('Impossibile trovare il canvas per l\'esportazione.')
+        return
+      }
+
+      // Calculate bounds of all nodes with extra padding for edges
+      const nodesBounds = getNodesBounds(nodes)
+
+      // Generous padding to ensure curved transitions are captured
+      const padding = 100
+
+      // Calculate final dimensions
+      const imageWidth = nodesBounds.width + padding * 2
+      const imageHeight = nodesBounds.height + padding * 2
+
+      // Calculate the center point
+      const centerX = nodesBounds.x + nodesBounds.width / 2
+      const centerY = nodesBounds.y + nodesBounds.height / 2
+
+      // Get the viewport element
+      const viewportElement = reactFlowWrapper.querySelector('.react-flow__viewport') as HTMLElement
+
+      if (!viewportElement) {
+        toast.error('Impossibile trovare il viewport.')
+        return
+      }
+
+      // Store original transform
+      const originalTransform = viewportElement.style.transform
+
+      // Apply transform to center and fit all nodes
+      const scale = Math.min(
+        imageWidth / (nodesBounds.width + padding * 2),
+        imageHeight / (nodesBounds.height + padding * 2)
+      )
+
+      viewportElement.style.transform =
+        `translate(${imageWidth / 2 - centerX * scale}px, ${imageHeight / 2 - centerY * scale}px) scale(${scale})`
+
+      // Export with high quality settings
+      const dataUrl = await toPng(viewportElement, {
+        backgroundColor: '#ffffff',
+        width: imageWidth,
+        height: imageHeight,
+        pixelRatio: 3, // Higher resolution (3x)
+        quality: 1.0,
+        cacheBust: true,
+        style: {
+          width: `${imageWidth}px`,
+          height: `${imageHeight}px`,
+        },
+      })
+
+      // Restore original transform
+      viewportElement.style.transform = originalTransform
+
+      // Download the image
+      const link = document.createElement('a')
+      link.download = `dfa-export-${Date.now()}.png`
+      link.href = dataUrl
+      link.click()
+
+      toast.success('Immagine scaricata con successo!')
+    } catch (error) {
+      console.error('Export failed:', error)
+      toast.error('Errore durante l\'esportazione dell\'immagine.')
+    }
+  }
+
   const handleAddState = () => {
     try {
       // Will create a basic state at center with some randomness to avoid overlap
@@ -136,6 +223,7 @@ const Toolbar: FC = () => {
           <Button
             variant="secondary"
             size="md"
+            onClick={handleDownloadImage}
             disabled={dfa.getStates().length === 0}
             title="Esporta come immagine"
           >

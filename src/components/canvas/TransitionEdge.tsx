@@ -2,7 +2,7 @@
  * Custom Transition Edge for React Flow
  */
 
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import {
   BaseEdge,
   EdgeLabelRenderer,
@@ -16,6 +16,7 @@ import { useTheme } from '@/hooks/useTheme'
 
 import { useDFAStore } from '@/store/dfaStore'
 import { useCallback, useRef } from 'react'
+import TransitionSymbolSelector from './TransitionSymbolSelector'
 
 /**
  * Custom Edge Component for DFA Transitions.
@@ -35,10 +36,20 @@ const TransitionEdge: FC<EdgeProps> = ({
 }) => {
   const { theme } = useTheme()
   const updateTransition = useDFAStore((state) => state.updateTransition)
+  const alphabet = useDFAStore((state) => state.getAlphabet())
+  const transitions = useDFAStore((state) => state.getTransitions())
 
   const edgeData = data as DFAEdgeData | undefined
   const isHighlighted = edgeData?.isHighlighted
   const isAnimating = edgeData?.isAnimating
+
+  // Calculate used symbols for this source state (excluding current transition)
+  const usedSymbols = transitions
+    .filter(t => t.from === edgeData?.from && t.id !== id)
+    .map(t => t.symbol)
+
+  // Inline editing state
+  const [isEditing, setIsEditing] = useState(false)
 
   // Get edge index and total edges for curvature calculation
   const edgeIndex = edgeData?.edgeIndex ?? 0
@@ -258,24 +269,36 @@ const TransitionEdge: FC<EdgeProps> = ({
           }}
           className="nodrag nopan"
         >
-          <div
-            className={clsx(
-              'px-2 py-1 bg-white dark:bg-gray-800 rounded text-xs font-bold',
-              'shadow-sm cursor-pointer text-gray-900 dark:text-gray-100',
-              'transition-all duration-200 select-none',
-              selected
-                ? 'border-2 border-primary-500 dark:border-primary-400 ring-2 ring-primary-200 dark:ring-primary-900'
-                : 'border border-gray-300 dark:border-gray-600',
-              isHighlighted && 'bg-red-50 dark:bg-red-950 border-red-500 dark:border-red-400'
-            )}
-            onClick={(e) => {
-              e.stopPropagation()
-              // Select edge logic handled by ReactFlow onEdgeClick usually, 
-              // but clicking label should also select/keep selected
-            }}
-          >
-            {edgeData?.symbol || ''}
-          </div>
+          {isEditing ? (
+            <TransitionSymbolSelector
+              currentSymbol={edgeData?.symbol || ''}
+              alphabet={alphabet}
+              usedSymbols={usedSymbols}
+              onSelect={(symbol) => {
+                updateTransition(id, { symbol })
+                setIsEditing(false)
+              }}
+              onClose={() => setIsEditing(false)}
+            />
+          ) : (
+            <div
+              className={clsx(
+                'px-2 py-1 bg-white dark:bg-gray-800 rounded text-xs font-bold',
+                'shadow-sm cursor-pointer text-gray-900 dark:text-gray-100',
+                'transition-all duration-200 select-none',
+                selected
+                  ? 'border-2 border-primary-500 dark:border-primary-400 ring-2 ring-primary-200 dark:ring-primary-900'
+                  : 'border border-gray-300 dark:border-gray-600',
+                isHighlighted && 'bg-red-50 dark:bg-red-950 border-red-500 dark:border-red-400'
+              )}
+              onClick={(e) => {
+                e.stopPropagation()
+                setIsEditing(true)
+              }}
+            >
+              {edgeData?.symbol || ''}
+            </div>
+          )}
         </div>
 
         {/* Control Point Handles (Visible only when selected) */}
