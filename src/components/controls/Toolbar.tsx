@@ -178,8 +178,8 @@ const Toolbar: FC = () => {
               title="Aggiungi stato (Clicca sul canvas)"
               className="shadow-lg shadow-primary-500/20"
             >
-              <Plus className="w-4 h-4 mr-2" />
-              Nuovo Stato
+              <Plus className="w-4 h-4 md:mr-2" />
+              <span className="hidden md:inline">Nuovo Stato</span>
             </Button>
 
             <Button

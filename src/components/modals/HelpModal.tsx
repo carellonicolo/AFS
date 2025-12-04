@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import Modal from '../ui/Modal'
-import { BookOpen, MousePointer2, Play, Settings, Info } from 'lucide-react'
+import { BookOpen, MousePointer2, Play, Settings, Info, FolderOpen, Download } from 'lucide-react'
 import { clsx } from 'clsx'
 
 interface HelpModalProps {
@@ -74,6 +74,24 @@ const HelpModal: FC<HelpModalProps> = ({ isOpen, onClose }) => {
 
                         <section>
                             <h3 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white">
+                                <FolderOpen className="w-5 h-5 text-yellow-500" />
+                                Gestione File
+                            </h3>
+                            <ul className="list-disc pl-5 space-y-2 text-gray-600 dark:text-gray-300">
+                                <li>
+                                    <strong>Salva:</strong> Scarica il tuo DFA come file <code>.json</code> per poterlo ricaricare in futuro.
+                                </li>
+                                <li>
+                                    <strong>Carica:</strong> Importa un file <code>.json</code> precedentemente salvato.
+                                </li>
+                                <li>
+                                    <strong>Esporta Immagine:</strong> Scarica un'immagine PNG ad alta risoluzione del tuo grafo cliccando su <Download className="w-4 h-4 inline mx-1" />.
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section>
+                            <h3 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white">
                                 <Play className="w-5 h-5 text-green-500" />
                                 Simulazione
                             </h3>
@@ -89,6 +107,9 @@ const HelpModal: FC<HelpModalProps> = ({ isOpen, onClose }) => {
                                 </li>
                                 <li>
                                     Usa i controlli Play/Pausa nella toolbar per seguire l'esecuzione passo dopo passo.
+                                </li>
+                                <li>
+                                    Usa le frecce direzionali (Destra/Sinistra) per avanzare o tornare indietro di un passo.
                                 </li>
                                 <li>
                                     Gli stati attivi si illumineranno durante l'esecuzione.
@@ -117,6 +138,16 @@ const HelpModal: FC<HelpModalProps> = ({ isOpen, onClose }) => {
                                 <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
                                     <span className="font-mono font-bold">Esc</span>
                                     <p className="text-gray-500 dark:text-gray-400 mt-1">Deseleziona tutto / Chiudi modali</p>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4 text-sm mt-4">
+                                <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
+                                    <span className="font-mono font-bold">Freccia Destra</span>
+                                    <p className="text-gray-500 dark:text-gray-400 mt-1">Passo successivo (durante test)</p>
+                                </div>
+                                <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
+                                    <span className="font-mono font-bold">Freccia Sinistra</span>
+                                    <p className="text-gray-500 dark:text-gray-400 mt-1">Passo precedente (durante test)</p>
                                 </div>
                             </div>
                         </section>
