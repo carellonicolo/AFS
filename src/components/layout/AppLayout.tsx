@@ -3,13 +3,12 @@ import Header from './Header'
 
 interface AppLayoutProps {
   children: ReactNode
-  onOpenSidebar?: () => void
 }
 
-const AppLayout: FC<AppLayoutProps> = ({ children, onOpenSidebar }) => {
+const AppLayout: FC<AppLayoutProps> = ({ children }) => {
   return (
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-950">
-      <Header onOpenSidebar={onOpenSidebar} />
+      <Header />
       <main className="flex-1 overflow-hidden">
         {children}
       </main>

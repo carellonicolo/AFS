@@ -1,12 +1,8 @@
 import { FC } from 'react'
-import { Menu, Github } from 'lucide-react'
+import { Github } from 'lucide-react'
 import HeaderAlphabet from './HeaderAlphabet'
 
-interface HeaderProps {
-  onOpenSidebar?: () => void
-}
-
-const Header: FC<HeaderProps> = ({ onOpenSidebar }) => {
+const Header: FC = () => {
   return (
     <header className="fixed top-4 left-4 right-4 z-50">
       <div className="glass-panel px-4 sm:px-6 py-3 flex items-center justify-between">
@@ -42,14 +38,7 @@ const Header: FC<HeaderProps> = ({ onOpenSidebar }) => {
             <span className="text-sm font-medium hidden sm:block">GitHub</span>
           </a>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={onOpenSidebar}
-            className="p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 text-gray-700 dark:text-slate-200 transition-colors lg:hidden"
-            title="Apri Menu"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
+
         </div>
       </div>
     </header>

@@ -17,6 +17,7 @@ import { useTheme } from '@/hooks/useTheme'
 import { useDFAStore } from '@/store/dfaStore'
 import { useCallback, useRef } from 'react'
 import TransitionSymbolSelector from './TransitionSymbolSelector'
+import TransitionPropertiesModal from '../modals/TransitionPropertiesModal'
 
 /**
  * Custom Edge Component for DFA Transitions.
@@ -50,6 +51,7 @@ const TransitionEdge: FC<EdgeProps> = ({
 
   // Inline editing state
   const [isEditing, setIsEditing] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   // Get edge index and total edges for curvature calculation
   const edgeIndex = edgeData?.edgeIndex ?? 0
@@ -295,11 +297,35 @@ const TransitionEdge: FC<EdgeProps> = ({
                 e.stopPropagation()
                 setIsEditing(true)
               }}
+              onDoubleClick={(e) => {
+                e.stopPropagation()
+                setIsEditing(false)
+                setIsModalOpen(true)
+              }}
+              title="Click per modificare | Doppio-click per aprire modale"
             >
               {edgeData?.symbol || ''}
             </div>
           )}
         </div>
+
+        {/* Transition Properties Modal */}
+        {isModalOpen && (
+          <div
+            style={{
+              position: 'absolute',
+              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY - 120}px)`,
+              pointerEvents: 'all',
+              zIndex: 50,
+            }}
+          >
+            <TransitionPropertiesModal
+              transitionId={id}
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+            />
+          </div>
+        )}
 
         {/* Control Point Handles (Visible only when selected) */}
         {selected && (

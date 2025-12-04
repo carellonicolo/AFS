@@ -6,8 +6,6 @@ import { FC, useState } from 'react'
 import {
   Plus,
   Play,
-  Pause,
-  RotateCcw,
   Save,
   FolderOpen,
   Download,
@@ -21,6 +19,7 @@ import { useConfirm } from '@/hooks/useConfirm'
 import { useExecutionStore } from '@/store/executionStore'
 import { DFASerializer } from '@/core/dfa/DFASerializer'
 import HelpModal from '../modals/HelpModal'
+import ExecutionModal from '../modals/ExecutionModal'
 
 import { useReactFlow, getNodesBounds } from '@xyflow/react'
 import { toPng } from 'html-to-image'
@@ -28,6 +27,7 @@ import { toast } from 'react-toastify'
 
 const Toolbar: FC = () => {
   const [isHelpOpen, setIsHelpOpen] = useState(false)
+  const [isExecutionModalOpen, setIsExecutionModalOpen] = useState(false)
   const dfa = useDFA()
   const { confirm } = useConfirm()
   const execution = useExecutionStore()
@@ -164,117 +164,112 @@ const Toolbar: FC = () => {
     input.click()
   }
 
-  const handleToggleExecution = () => {
-    if (execution.isExecuting && !execution.isPaused) {
-      execution.pauseExecution()
-    } else if (execution.isPaused) {
-      execution.resumeExecution()
-    }
-  }
 
   return (
-    <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-fit">
-      <div className="glass-panel px-3 sm:px-4 py-2 flex items-center gap-2 sm:gap-4 overflow-x-auto custom-scrollbar">
-        {/* State Management */}
-        <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-white/10">
-          <Button
-            variant="primary"
-            size="md"
-            onClick={handleAddState}
-            title="Aggiungi stato (Clicca sul canvas)"
-            className="shadow-lg shadow-primary-500/20"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Nuovo Stato
-          </Button>
-
-          <Button
-            variant="danger"
-            size="md"
-            onClick={handleClear}
-            disabled={dfa.getStates().length === 0}
-            title="Cancella tutto"
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
-        </div>
-
-        {/* File Operations */}
-        <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-white/10">
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={handleSave}
-            disabled={dfa.getStates().length === 0}
-            title="Salva DFA (Ctrl+S)"
-          >
-            <Save className="w-4 h-4" />
-          </Button>
-
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={handleLoad}
-            title="Carica DFA"
-          >
-            <FolderOpen className="w-4 h-4" />
-          </Button>
-
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={handleDownloadImage}
-            disabled={dfa.getStates().length === 0}
-            title="Esporta come immagine"
-          >
-            <Download className="w-4 h-4" />
-          </Button>
-        </div>
-
-        {/* Execution Controls */}
-        {execution.executionResult && (
+    <>
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-fit">
+        <div className="glass-panel px-3 sm:px-4 py-2 flex items-center gap-2 sm:gap-4 overflow-x-auto custom-scrollbar">
+          {/* State Management */}
           <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-white/10">
             <Button
               variant="primary"
               size="md"
-              onClick={handleToggleExecution}
-              title={execution.isPaused ? 'Riprendi (Spazio)' : 'Pausa (Spazio)'}
+              onClick={handleAddState}
+              title="Aggiungi stato (Clicca sul canvas)"
               className="shadow-lg shadow-primary-500/20"
             >
-              {execution.isPaused || !execution.isExecuting ? (
-                <Play className="w-4 h-4" />
-              ) : (
-                <Pause className="w-4 h-4" />
-              )}
+              <Plus className="w-4 h-4 mr-2" />
+              Nuovo Stato
+            </Button>
+
+            <Button
+              variant="danger"
+              size="md"
+              onClick={handleClear}
+              disabled={dfa.getStates().length === 0}
+              title="Cancella tutto"
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
+
+          {/* File Operations */}
+          <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-white/10">
+            <Button
+              variant="secondary"
+              size="md"
+              onClick={handleSave}
+              disabled={dfa.getStates().length === 0}
+              title="Salva DFA (Ctrl+S)"
+            >
+              <Save className="w-4 h-4" />
             </Button>
 
             <Button
               variant="secondary"
               size="md"
-              onClick={() => execution.reset()}
-              title="Reset"
+              onClick={handleLoad}
+              title="Carica DFA"
             >
-              <RotateCcw className="w-4 h-4" />
+              <FolderOpen className="w-4 h-4" />
+            </Button>
+
+            <Button
+              variant="secondary"
+              size="md"
+              onClick={handleDownloadImage}
+              disabled={dfa.getStates().length === 0}
+              title="Esporta come immagine"
+            >
+              <Download className="w-4 h-4" />
             </Button>
           </div>
-        )}
 
-        {/* Help & Theme */}
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <Button
-            variant="ghost"
-            size="md"
-            title="Aiuto"
-            onClick={() => setIsHelpOpen(true)}
-          >
-            <HelpCircle className="w-4 h-4" />
-          </Button>
+
+          {/* Execution Control */}
+          <div className="flex items-center gap-2 pr-4 border-r border-gray-200 dark:border-white/10">
+            <Button
+              variant={execution.isExecuting ? "primary" : "secondary"}
+              size="md"
+              onClick={() => setIsExecutionModalOpen(true)}
+              title="Esegui DFA"
+              className={execution.isExecuting ? "shadow-lg shadow-primary-500/20" : ""}
+            >
+              <Play className="w-4 h-4" />
+              {execution.isExecuting && (
+                <span className="ml-2 hidden sm:inline">In esecuzione</span>
+              )}
+            </Button>
+          </div>
+
+
+          {/* Help & Theme */}
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="md"
+              title="Aiuto"
+              onClick={() => setIsHelpOpen(true)}
+            >
+              <HelpCircle className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
+
+        <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
       </div>
 
-      <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
-    </div>
+      {/* Execution Modal - Positioned above toolbar */}
+      {isExecutionModalOpen && (
+        <div className="fixed bottom-32 left-1/2 transform -translate-x-1/2 z-50">
+          <ExecutionModal
+            isOpen={isExecutionModalOpen}
+            onClose={() => setIsExecutionModalOpen(false)}
+          />
+        </div>
+      )}
+    </>
   )
 }
 
