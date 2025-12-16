@@ -10,15 +10,13 @@ import {
   FolderOpen,
   Download,
   Trash2,
-  HelpCircle,
 } from 'lucide-react'
+import HeaderAlphabet from '../layout/HeaderAlphabet'
 import Button from '../ui/Button'
-import ThemeToggle from '../ui/ThemeToggle'
 import { useDFA } from '@/hooks/useDFA'
 import { useConfirm } from '@/hooks/useConfirm'
 import { useExecutionStore } from '@/store/executionStore'
 import { DFASerializer } from '@/core/dfa/DFASerializer'
-import HelpModal from '../modals/HelpModal'
 import ExecutionModal from '../modals/ExecutionModal'
 
 import { useReactFlow, getNodesBounds } from '@xyflow/react'
@@ -26,7 +24,6 @@ import { toPng } from 'html-to-image'
 import { toast } from 'react-toastify'
 
 const Toolbar: FC = () => {
-  const [isHelpOpen, setIsHelpOpen] = useState(false)
   const [isExecutionModalOpen, setIsExecutionModalOpen] = useState(false)
   const dfa = useDFA()
   const { confirm } = useConfirm()
@@ -243,21 +240,11 @@ const Toolbar: FC = () => {
           </div>
 
 
-          {/* Help & Theme */}
+          {/* Alphabet */}
           <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <Button
-              variant="ghost"
-              size="md"
-              title="Aiuto"
-              onClick={() => setIsHelpOpen(true)}
-            >
-              <HelpCircle className="w-4 h-4" />
-            </Button>
+            <HeaderAlphabet />
           </div>
         </div>
-
-        <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
       </div>
 
       {/* Execution Modal - Positioned above toolbar */}

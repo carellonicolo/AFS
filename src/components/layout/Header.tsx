@@ -1,8 +1,12 @@
-import { FC } from 'react'
-import { Github } from 'lucide-react'
-import HeaderAlphabet from './HeaderAlphabet'
+import { FC, useState } from 'react'
+import { Github, HelpCircle } from 'lucide-react'
+import Button from '../ui/Button'
+import ThemeToggle from '../ui/ThemeToggle'
+import HelpModal from '../modals/HelpModal'
 
 const Header: FC = () => {
+  const [isHelpOpen, setIsHelpOpen] = useState(false)
+
   return (
     <header className="fixed top-4 left-4 right-4 z-50">
       <div className="glass-panel px-4 sm:px-6 py-3 flex items-center justify-between">
@@ -23,8 +27,16 @@ const Header: FC = () => {
 
 
         <div className="flex items-center gap-2">
-          <div className="hidden md:block mr-2">
-            <HeaderAlphabet />
+          <div className="flex items-center gap-2 mr-2">
+            <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="md"
+              title="Aiuto"
+              onClick={() => setIsHelpOpen(true)}
+            >
+              <HelpCircle className="w-4 h-4" />
+            </Button>
           </div>
 
           <a
@@ -41,6 +53,7 @@ const Header: FC = () => {
 
         </div>
       </div>
+      <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
     </header>
   )
 }
