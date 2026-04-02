@@ -1,223 +1,129 @@
 # DFA Visual Editor
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue.svg)
-![React](https://img.shields.io/badge/React-18.2-blue.svg)
-![Vite](https://img.shields.io/badge/Vite-5.1-646CFF.svg)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC.svg)
+> Editor visuale interattivo per Automi a Stati Finiti Deterministici (DFA)
 
-Editor visuale per Automi a Stati Finiti Deterministici (DFA) - Un'applicazione web intuitiva per creare, testare e visualizzare DFA.
+[![Licenza MIT](https://img.shields.io/badge/Licenza-MIT-blue.svg)](LICENSE)
+[![React](https://img.shields.io/badge/React-18-61dafb?logo=react&logoColor=white)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5-646cff?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06b6d4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![GitHub stars](https://img.shields.io/github/stars/carellonicolo/AFS?style=social)](https://github.com/carellonicolo/AFS)
+[![GitHub issues](https://img.shields.io/github/issues/carellonicolo/AFS)](https://github.com/carellonicolo/AFS/issues)
+[![GitHub forks](https://img.shields.io/github/forks/carellonicolo/AFS?style=social)](https://github.com/carellonicolo/AFS/network)
 
-## Caratteristiche
+## Panoramica
 
-### Funzionalità Core
-- **Editor Visuale**: Crea stati e transizioni con drag & drop usando React Flow
-- **Tipi di Stati**: Normale, Iniziale, Accettante, Iniziale+Accettante
-- **Gestione Transizioni**: Collega stati con transizioni etichettate
-- **Gestione Alfabeto**: Personalizza l'alfabeto del tuo DFA
-- **Validazione Automatica**: Il sistema valida automaticamente il DFA per errori comuni:
-  - Verifica stato iniziale unico
-  - Controlla determinismo
-  - Rileva stati non raggiungibili
-  - Avvisa per transizioni incomplete
+DFA Visual Editor e uno strumento web interattivo per la creazione, la modifica e la validazione di Automi a Stati Finiti Deterministici. Progettato come risorsa didattica per studenti e docenti di informatica teorica, consente di costruire automi in modo visuale tramite un'interfaccia drag-and-drop intuitiva, testare stringhe di input in tempo reale e verificare le proprieta formali dell'automa.
 
-### Esecuzione e Test
-- **Esecuzione Step-by-Step**: Esegui il DFA passo dopo passo
-- **Animazioni**: Visualizzazione animata dello stato corrente e delle transizioni
-- **Modalità Auto**: Esecuzione automatica con velocità configurabile
-- **Risultati Chiari**: Indica chiaramente se l'input è accettato o rifiutato
+L'applicazione rappresenta un valido supporto per l'insegnamento dei linguaggi formali e della teoria degli automi, rendendo concetti astratti immediatamente tangibili e sperimentabili attraverso la visualizzazione interattiva.
 
-### Persistenza
-- **Autosave**: Salvataggio automatico ogni 5 secondi su localStorage
-- **Export JSON**: Esporta il DFA in formato JSON
-- **Import JSON**: Carica DFA da file JSON
+## Funzionalita Principali
 
-### UI/UX
-- **Keyboard Shortcuts**:
-  - `Canc/Backspace`: Elimina elemento selezionato
-  - `Ctrl/Cmd+S`: Salva DFA
-  - `Esc`: Deseleziona
-  - `Space`: Play/Pause esecuzione
-  - `←/→`: Naviga tra i passi dell'esecuzione
-- **Responsive**: Funziona su desktop e mobile
-- **Sidebar Collassabile**: Pannello proprietà e test facilmente accessibile
+- **Editor visuale drag-and-drop** — Creazione e posizionamento di stati e transizioni con interfaccia grafica basata su React Flow
+- **Validazione in tempo reale** — Test di stringhe di input con evidenziazione del percorso di accettazione/rifiuto
+- **Gestione completa degli stati** — Definizione di stati iniziali, finali e intermedi con editing inline
+- **Transizioni interattive** — Creazione di archi etichettati con simboli dell'alfabeto tramite collegamento diretto tra nodi
+- **Gestione dello stato con Zustand** — Architettura reattiva per la sincronizzazione tra editor e simulatore
+- **Tema chiaro/scuro** — Supporto completo per dark mode
+- **Responsive design** — Utilizzabile su desktop, tablet e dispositivi mobili
 
-## Tecnologie Utilizzate
+## Tech Stack
 
-- **React 18** - Framework UI
-- **TypeScript** - Type safety
-- **Vite** - Build tool ultra-veloce
-- **React Flow** - Libreria per grafi e diagrammi
-- **Zustand** - State management leggero
-- **Tailwind CSS** - Styling utility-first
-- **Lucide React** - Icone moderne
+| Tecnologia | Utilizzo |
+|:--|:--|
+| ![React](https://img.shields.io/badge/React_18-61dafb?logo=react&logoColor=white) | Framework UI |
+| ![TypeScript](https://img.shields.io/badge/TypeScript_5-3178c6?logo=typescript&logoColor=white) | Linguaggio tipizzato |
+| ![Vite](https://img.shields.io/badge/Vite_5-646cff?logo=vite&logoColor=white) | Build tool |
+| ![React Flow](https://img.shields.io/badge/React_Flow-ff0072) | Diagrammi interattivi |
+| ![Zustand](https://img.shields.io/badge/Zustand-433e38) | State management |
+| ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06b6d4?logo=tailwindcss&logoColor=white) | Styling |
 
-## Installazione e Avvio
+## Requisiti
 
-### Prerequisiti
-- Node.js 18+
-- npm o yarn
+- **Node.js** >= 18
+- **npm** >= 9 (oppure bun)
 
-### Istruzioni
+## Installazione
 
-1. **Clona il repository**
-   ```bash
-   git clone <repository-url>
-   cd AFS
-   ```
+```bash
+git clone https://github.com/carellonicolo/AFS.git
+cd AFS
+npm install
+npm run dev
+```
 
-2. **Installa le dipendenze**
-   ```bash
-   npm install
-   ```
+L'applicazione sara disponibile su `http://localhost:8080`.
 
-3. **Avvia il server di sviluppo**
-   ```bash
-   npm run dev
-   ```
+## Utilizzo
 
-4. **Apri il browser**
-   L'applicazione sarà disponibile su `http://localhost:5173`
+1. **Aggiungi stati** cliccando sulla canvas o tramite il pannello laterale
+2. **Collega gli stati** trascinando da un nodo all'altro per creare transizioni
+3. **Definisci l'alfabeto** etichettando le transizioni con i simboli desiderati
+4. **Imposta stato iniziale e finali** tramite il menu contestuale di ogni stato
+5. **Testa una stringa** inserendola nel pannello di simulazione e osservando il percorso nell'automa
 
-## Build per Produzione
+## Struttura del Progetto
+
+```
+AFS/
+├── src/
+│   ├── components/     # Componenti React (editor, pannelli, toolbar)
+│   ├── store/          # Store Zustand per lo stato dell'automa
+│   ├── lib/            # Logica di validazione e simulazione DFA
+│   ├── pages/          # Pagine dell'applicazione
+│   └── hooks/          # Custom hooks React
+├── public/             # Asset statici
+├── index.html          # Entry point HTML
+└── vite.config.ts      # Configurazione Vite
+```
+
+## Deploy
+
+L'applicazione produce un bundle statico deployabile su qualsiasi piattaforma:
 
 ```bash
 npm run build
 ```
 
-Il build ottimizzato sarà creato nella cartella `dist/`.
-
-## Guida Rapida
-
-### Creare il tuo primo DFA
-
-1. **Aggiungi Stati**:
-   - Clicca su "Nuovo Stato" nella toolbar
-   - Uno stato verrà creato al centro del canvas
-   - Trascina lo stato nella posizione desiderata
-
-2. **Configura Stati**:
-   - Clicca su uno stato per selezionarlo
-   - Nel pannello "Proprietà" (sidebar destra):
-     - Modifica l'etichetta
-     - Seleziona il tipo (Normale, Iniziale, Accettante, etc.)
-
-3. **Crea Transizioni**:
-   - Trascina da un cerchietto (handle) di uno stato verso un altro stato
-   - La transizione verrà creata con il primo simbolo dell'alfabeto
-   - Clicca sulla transizione per modificare il simbolo
-
-4. **Gestisci Alfabeto**:
-   - Nel pannello "Proprietà", sezione Alfabeto
-   - Aggiungi o rimuovi simboli
-   - L'alfabeto di default è {0, 1}
-
-5. **Testa il DFA**:
-   - Vai al tab "Test" nella sidebar
-   - Inserisci una stringa di input
-   - Clicca "Esegui" per esecuzione automatica
-   - Oppure usa il pulsante step-by-step per avanzare manualmente
-   - Osserva l'animazione sul canvas
-
-6. **Salva il tuo Lavoro**:
-   - Il DFA viene salvato automaticamente ogni 5 secondi
-   - Usa "Salva" per scaricare un file JSON
-   - Usa "Carica" per importare un DFA salvato
-
-## Struttura del Progetto
-
-```
-src/
-├── components/          # Componenti React
-│   ├── canvas/         # Canvas React Flow + nodi custom
-│   ├── controls/       # Toolbar, pannelli controllo
-│   ├── layout/         # Layout componenti
-│   └── ui/             # Componenti UI riusabili
-├── core/               # Logica core DFA
-│   └── dfa/           # Classi DFA, Validator, Executor
-├── store/              # Zustand stores
-├── hooks/              # Custom React hooks
-├── types/              # TypeScript type definitions
-├── utils/              # Utility functions
-└── styles/             # CSS e animazioni
-```
-
-## Architettura
-
-L'applicazione segue un'architettura modulare:
-
-- **Core Logic**: Separata dall'UI in `src/core/dfa/`
-  - `DFA.ts`: Classe principale con operazioni CRUD
-  - `DFAValidator.ts`: Validazione determinismo e completezza
-  - `DFAExecutor.ts`: Algoritmo di esecuzione
-  - `DFASerializer.ts`: Import/Export JSON
-
-- **State Management**: Zustand con 3 store principali
-  - `dfaStore`: Stato DFA corrente
-  - `executionStore`: Stato esecuzione
-  - `uiStore`: Stato UI (dialoghi, pannelli)
-
-- **Canvas**: React Flow con componenti custom
-  - `StateNode`: Nodo custom per stati
-  - `TransitionEdge`: Arco custom per transizioni
-  - `DFACanvas`: Canvas principale con sync bidirezionale
-
-## Esempi di DFA
-
-### DFA che accetta stringhe binarie con numero pari di 1
-```json
-{
-  "states": [
-    {"id": "q0", "label": "Even", "type": "initial-accepting", "position": {"x": 100, "y": 100}},
-    {"id": "q1", "label": "Odd", "type": "normal", "position": {"x": 300, "y": 100}}
-  ],
-  "transitions": [
-    {"id": "t1", "from": "q0", "to": "q0", "symbol": "0"},
-    {"id": "t2", "from": "q0", "to": "q1", "symbol": "1"},
-    {"id": "t3", "from": "q1", "to": "q1", "symbol": "0"},
-    {"id": "t4", "from": "q1", "to": "q0", "symbol": "1"}
-  ],
-  "alphabet": ["0", "1"],
-  "metadata": {
-    "name": "Even Ones",
-    "description": "Accepts binary strings with even number of 1s",
-    "createdAt": "2025-11-30T00:00:00.000Z",
-    "modifiedAt": "2025-11-30T00:00:00.000Z"
-  }
-}
-```
-
-## Sviluppo Futuro
-
-Funzionalità pianificate per versioni future:
-- Export come immagine PNG/SVG
-- Galleria di DFA predefiniti
-- Tutorial interattivo per principianti
-- Modalità dark
-- Condivisione DFA via URL
-- Supporto NFA (Non-deterministic Finite Automata)
-- Conversione DFA ↔ Regex
-- Algoritmo di minimizzazione DFA
+La cartella `dist/` generata puo essere pubblicata su Cloudflare Pages, Netlify, Vercel o qualsiasi hosting statico.
 
 ## Contribuire
 
-Contributi sono benvenuti! Per favore:
-1. Fai un fork del repository
-2. Crea un branch per la tua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit le tue modifiche (`git commit -m 'Add some AmazingFeature'`)
-4. Push al branch (`git push origin feature/AmazingFeature`)
-5. Apri una Pull Request
+I contributi sono benvenuti! Consulta le [linee guida per contribuire](CONTRIBUTING.md) per maggiori dettagli.
 
 ## Licenza
 
-Questo progetto è distribuito sotto licenza MIT. Vedi il file `LICENSE` per dettagli.
+Distribuito con licenza MIT. Vedi il file [LICENSE](LICENSE) per i dettagli completi.
 
 ## Autore
 
-Nicolò Carello - [info@nicolocarello.it](mailto:info@nicolocarello.it)
+**Nicolo Carello**
+- GitHub: [@carellonicolo](https://github.com/carellonicolo)
+- Website: [nicolocarello.it](https://nicolocarello.it)
 
-## Ringraziamenti
+---
 
-- [React Flow](https://reactflow.dev/) per l'eccellente libreria di grafi
-- La comunità open source per le librerie utilizzate
-- Studenti e insegnanti di teoria della computazione per l'ispirazione
+<sub>Sviluppato con l'ausilio dell'intelligenza artificiale.</sub>
+
+## Progetti Correlati
+
+Questo progetto fa parte di una collezione di strumenti didattici e applicazioni open-source:
+
+| Progetto | Descrizione |
+|:--|:--|
+| [Turing Machine](https://github.com/carellonicolo/Turing-Machine) | Simulatore di Macchina di Turing |
+| [Scheduler](https://github.com/carellonicolo/Scheduler) | Simulatore di scheduling CPU |
+| [Subnet Calculator](https://github.com/carellonicolo/Subnet) | Calcolatore subnet IPv4/IPv6 |
+| [Base Converter](https://github.com/carellonicolo/base-converter) | Suite di conversione multi-funzionale |
+| [Gioco del Lotto](https://github.com/carellonicolo/giocodellotto) | Simulatore Lotto e SuperEnalotto |
+| [MicroASM](https://github.com/carellonicolo/microasm) | Simulatore assembly |
+| [Flow Charts](https://github.com/carellonicolo/flow-charts) | Editor di diagrammi di flusso |
+| [Cypher](https://github.com/carellonicolo/cypher) | Toolkit di crittografia |
+| [Snake](https://github.com/carellonicolo/snake) | Snake game retro |
+| [Pong](https://github.com/carellonicolo/pongcarello) | Pong game |
+| [Calculator](https://github.com/carellonicolo/calculator-carello) | Calcolatrice scientifica |
+| [IPSC Score](https://github.com/carellonicolo/IPSC) | Calcolatore punteggi IPSC |
+| [Quiz](https://github.com/carellonicolo/quiz) | Piattaforma quiz scolastici |
+| [Carello Hub](https://github.com/carellonicolo/carello-hub) | Dashboard educativa |
+| [Prof Carello](https://github.com/carellonicolo/prof-carello) | Gestionale lezioni private |
+| [DOCSITE](https://github.com/carellonicolo/DOCSITE) | Piattaforma documentale |
