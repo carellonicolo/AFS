@@ -1,63 +1,80 @@
-# Contributing to DFA Visual Editor
+# Contribuire al progetto
 
-First off, thanks for taking the time to contribute! 🎉
+Grazie per il tuo interesse nel contribuire! Questo progetto fa parte di una collezione di strumenti open-source per la didattica e la divulgazione informatica. Ogni contributo, grande o piccolo, aiuta a migliorare l'esperienza di apprendimento per tutti.
 
-The following is a set of guidelines for contributing to DFA Visual Editor. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
+## Come contribuire
 
-## Code of Conduct
+### Segnalare un bug
 
-This project and everyone participating in it is governed by the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+1. Verifica che il bug non sia gia stato segnalato tra le [Issues](../../issues) esistenti
+2. Apri una nuova Issue descrivendo:
+   - Il comportamento atteso
+   - Il comportamento effettivo
+   - I passi per riprodurre il problema
+   - Browser e sistema operativo utilizzati
+   - Eventuali screenshot
 
-## How Can I Contribute?
+### Proporre una nuova funzionalita
 
-### Reporting Bugs
+1. Apri una Issue con il tag `enhancement`
+2. Descrivi la funzionalita proposta, il caso d'uso e i benefici
+3. Attendi un riscontro prima di procedere con l'implementazione
 
-This section guides you through submitting a bug report. Following these guidelines helps maintainers and the community understand your report, reproduce the behavior, and find related reports.
+### Inviare una Pull Request
 
-- **Use a clear and descriptive title** for the issue to identify the problem.
-- **Describe the exact steps to reproduce the problem** in as many details as possible.
-- **Provide specific examples** to demonstrate the steps.
-- **Describe the behavior you observed after following the steps** and point out what exactly is the problem with that behavior.
-- **Explain which behavior you expected to see instead and why.**
+1. Fai un **fork** del repository
+2. Crea un branch dal `main`:
+   ```bash
+   git checkout -b feature/nome-feature
+   ```
+3. Effettua le modifiche seguendo le convenzioni del progetto
+4. Testa le modifiche localmente
+5. Esegui il commit con messaggi chiari e descrittivi:
+   ```bash
+   git commit -m "feat: aggiungi descrizione breve"
+   ```
+6. Pusha il branch e apri una Pull Request
 
-### Suggesting Enhancements
+### Convenzioni per i commit
 
-This section guides you through submitting an enhancement suggestion, including completely new features and minor improvements to existing functionality.
+Questo progetto segue le [Conventional Commits](https://www.conventionalcommits.org/):
 
-- **Use a clear and descriptive title** for the issue to identify the suggestion.
-- **Provide a step-by-step description of the suggested enhancement** in as many details as possible.
-- **Explain why this enhancement would be useful** to most users.
+| Prefisso   | Uso                                    |
+|------------|----------------------------------------|
+| `feat:`    | Nuova funzionalita                     |
+| `fix:`     | Correzione di un bug                   |
+| `docs:`    | Modifiche alla documentazione          |
+| `style:`   | Formattazione, senza cambi di logica   |
+| `refactor:`| Refactoring del codice                 |
+| `test:`    | Aggiunta o modifica di test            |
+| `chore:`   | Manutenzione, dipendenze, build        |
 
-### Pull Requests
+## Ambiente di sviluppo
 
-- Fill in the required template
-- Do not include issue numbers in the PR title
-- Include screenshots and animated GIFs in your pull request whenever possible.
-- Follow the style guides.
+```bash
+# Clona il repository
+git clone <url-del-repo>
+cd <nome-progetto>
 
-## Styleguides
+# Installa le dipendenze
+npm install
 
-### Git Commit Messages
+# Avvia il server di sviluppo
+npm run dev
+```
 
-- Use the present tense ("Add feature" not "Added feature")
-- Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
-- Limit the first line to 72 characters or less
-- Reference issues and pull requests liberally after the first line
+## Linee guida
 
-### JavaScript/TypeScript Styleguide
+- Scrivi codice pulito e leggibile
+- Mantieni la compatibilita con i browser moderni
+- Rispetta la struttura e le convenzioni esistenti del progetto
+- Documenta le modifiche significative
+- Segui il [Codice di Condotta](CODE_OF_CONDUCT.md)
 
-- All JavaScript must adhere to [Standard JS](https://standardjs.com/).
-- Prefer `const` over `let`.
-- Use async/await over promises.
-- Use functional components and hooks for React.
+## Domande?
 
-## Additional Notes
+Se hai dubbi o hai bisogno di aiuto, apri una Issue con il tag `question` o contatta il maintainer attraverso il suo [profilo GitHub](https://github.com/carellonicolo).
 
-### Issue and Pull Request Labels
+---
 
-This section lists the labels we use to help us track and manage issues and pull requests.
-
-* `bug` - Issues that are bugs.
-* `enhancement` - Issues that are feature requests.
-* `documentation` - Issues or PRs related to documentation.
-* `good first issue` - Good for newcomers.
+Grazie per rendere questo progetto migliore!
